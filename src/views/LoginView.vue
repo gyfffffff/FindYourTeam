@@ -1,12 +1,28 @@
 <script setup lang="ts">
+import {ref} from 'vue'
+import { ElMessage } from 'element-plus'
+const agreement = ref(false)
+const toLogin = () => {
+    if (agreement.value) {
+        // window.location.href = 'https://ids.ecnu.edu.cn/authserver/login?service=http://localhost:8080/login'
+        window.location.href = '/'
+    } else {
+        ElMessage({
+            message: '请先阅读并同意《用户协议》',
+            type: 'warning',
+        })
+    }
+}
 </script>
 
 <template>
     <div class="wrapper">
         <div class="loginBox">
             <p class="loginTitle">登录</p>
-            <el-button class="loginButton">前往 ECNU 进行统一认证</el-button>
-            <p class="agreement">我已阅读并同意使用协议</p>
+            <el-button class="loginButton" @click="toLogin">前往 ECNU 进行统一认证</el-button>
+            <div class="agreement">
+                <el-checkbox v-model="agreement">我已阅读并同意《用户协议》</el-checkbox>
+            </div>
         </div>
     </div>
 </template>
