@@ -16,11 +16,15 @@ import HelloWorld from './components/HelloWorld.vue'
       </nav>
     </div>
   </header> -->
+  <div class="wrapper">
+
+  </div>
 
   <RouterView />
 </template>
 
 <style scoped>
+
 header {
   line-height: 1.5;
   max-height: 100vh;
