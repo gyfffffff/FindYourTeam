@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-button type="primary" class="newTeamButton">新建项目</el-button>
+    <div class="main">
+        <el-button type="primary" class="newTeamButton">新建团队</el-button>
         <table>
             <thead>
                 <tr>
@@ -11,23 +11,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Team A</td>
-                    <td>001</td>
-                    <td>Project X</td>
-                    <td>John, Mary, Alice</td>
-                </tr>
-                <tr>
-                    <td>Team B</td>
-                    <td>002</td>
-                    <td>Project Y</td>
-                    <td>Bob, Emily, David</td>
-                </tr>
-                <tr>
-                    <td>Team C</td>
-                    <td>003</td>
-                    <td>Project Z</td>
-                    <td>Lisa, Michael, Sarah</td>
+                <tr v-for="item in teamArr" :key="item.name">
+                    <td>{{item.name}}</td>
+                    <td>{{item.id}}</td>
+                    <td>{{item.proj}}</td>
+                    <td>{{item.members}}</td>
                 </tr>
             </tbody>
         </table>
@@ -39,7 +27,22 @@ export default {
     name: "MyTeam",
     data() {
         return {
-            // Your data properties here
+            teamArr: [{
+                name: "Team A",
+                id: "001",
+                proj: "Project X",
+                members: "John, Mary, Alice",
+            },{
+                name: "Team B",
+                id: "002",
+                proj: "Project Y",
+                members: "Bob, Emily, David",
+            },{
+                name: "Team C",
+                id: "003",
+                proj: "Project Z",
+                members: "Lisa, Michael, Sarah",
+            }]
         };
     },
     methods: {
@@ -52,8 +55,13 @@ export default {
 </script>
 
 <style scoped>
+.main {
+    position: relative;
+    padding-top: 50px;
+}
 table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
@@ -85,8 +93,8 @@ tr:hover {
     line-height: 40px !important;
     font-size: 20px;
     font-weight: 600;
-    top: 130px;
-    right: 20px;
+    top: 0px;
+    right: 0px;
     padding: 0 10px;
 }
 </style>

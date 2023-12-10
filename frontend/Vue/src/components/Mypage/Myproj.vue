@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         <el-row gutter="20">
             <el-col :span="12" v-for="item in cardArr" :key="item.title">
                 <el-card shadow="hover">
@@ -44,6 +44,7 @@ export default {
 
 <style scoped>
 .main {
+    position: relative;
 }
 .cardTitle {
     margin: 5px 0;
@@ -65,8 +66,8 @@ export default {
     line-height: 40px !important;
     font-size: 20px;
     font-weight: 600;
-    top: 130px;
-    right: 20px;
+    top: 0px;
+    right: 0px;
     padding: 0 10px;
 }
 .cardView {

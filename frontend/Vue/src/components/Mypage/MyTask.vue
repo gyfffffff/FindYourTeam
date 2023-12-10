@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-button type="primary" class="newTeamButton">新建项目</el-button>
+  <div class="main">
+      <el-button type="primary" class="newTeamButton">新建任务</el-button>
       <table>
           <thead>
               <tr>
@@ -56,6 +56,10 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  position: relative;
+  padding-top: 50px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -89,8 +93,8 @@ tr:hover {
   line-height: 40px !important;
   font-size: 20px;
   font-weight: 600;
-  top: 130px;
-  right: 20px;
+  top: 0px;
+  right: 0px;
   padding: 0 10px;
 }
 .finishTag {

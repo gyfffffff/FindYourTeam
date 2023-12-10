@@ -53,12 +53,16 @@ export default {
         selectButton(val) {
             this.activeButton = val;
         },
+        navHome() {
+            this.$router.push("/");
+        },
     },
 };
 </script>
 
 <template>
     <div class="main">
+        <el-button type="primary" class="returnButton" @click="navHome()">返回首页</el-button>
         <!-- 个人信息部分 -->
         <div class="info">
             <div class="avatarBox">
@@ -99,11 +103,24 @@ export default {
 </template>
 
 <style scoped>
+.returnButton {
+    height: 40px;
+    width: 100px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    padding: 0;
+    line-height: 40px !important;
+    font-size: 20px;
+    font-weight: 400;
+}
 .main {
     width: 100%;
-    height: 830px;
+    height: 100%;
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 .info {
     width: 500px;
