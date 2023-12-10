@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> getList(Integer pageNum, Integer pageSize, String uid){
         //改：先由uid找到gid，再通过gid查project
-        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().inSql(Project::getGid, "select gid from `tasker1.0`.group_table where uid = '"+uid+"'");
+        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().inSql(Project::getGid, "select gid from `task`.group_table where uid = '"+uid+"'");
         Page<Project> projectPage = projectMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return projectPage;
     }
