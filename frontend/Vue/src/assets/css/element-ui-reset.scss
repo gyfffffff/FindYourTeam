@@ -1,0 +1,25 @@
+$primary-btn-color:#b70031;
+
+.el-button--primary{
+	background-color: $primary-btn-color !important;
+	border-radius: 0 !important;
+	font-size: 24px;
+	border: 0 !important;
+    line-height: 60px !important;
+    margin: 0 !important;
+}
+
+.el-button--primary:hover{
+    background-color: #ffffff !important;
+    color: #b70031 !important;
+}
+
+// .el-button--primary:focus{
+//     background-color: #ffffff !important;
+//     color: #b70031 !important;
+// }
+
+// .el-button--primary:active{
+//     background-color: #ffffff !important;
+//     color: #b70031 !important;
+// }

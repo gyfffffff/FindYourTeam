@@ -13,6 +13,9 @@ import GroupList from "@/views/GroupList.vue";
 import FileList from "@/views/FileList.vue";
 import Comment from "@/views/Comment.vue";
 import Chat from "@/views/Chat.vue";
+import Digital from "@/views/Digital.vue";
+import Competition from "@/views/Competition.vue";
+import Mypage from "@/views/Mypage.vue";
 
 Vue.use(VueRouter)
 
@@ -96,6 +99,24 @@ const routes = [
     path: '/chat',
     name: 'chat',
     component: Chat
+  },
+  {
+    // 数字素养
+    path: '/digital',
+    name: 'digital',
+    component: Digital
+  },
+  {
+    // 赛事天地
+    path: '/competition',
+    name: 'competition',
+    component: Competition
+  },
+  {
+    // 个人信息
+    path: '/mypage',
+    name: 'mypage',
+    component: Mypage
   }
 ]
 
