@@ -36,7 +36,7 @@ export default {
 <style scoped>
 
 .wrapper {
-    background: url('/loginBackground.png') no-repeat;
+    background: url('../../public/loginBackground.png') no-repeat;
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
