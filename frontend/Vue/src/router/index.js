@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from "@/views/Login.vue";
+import Login1 from "@/views/Login1View.vue";
 import App from "@/App.vue";
 import Register from "@/views/Register.vue";
 import Project from "@/views/Project.vue";
@@ -117,6 +118,12 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: Mypage
+  },
+  {
+    // 新的 login 页面
+    path: '/login1',
+    name: 'login1',
+    component: Login1
   }
 ]
 
