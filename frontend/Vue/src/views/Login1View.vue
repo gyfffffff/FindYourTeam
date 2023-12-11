@@ -1,17 +1,23 @@
-<script setup lang="ts">
+<script>
 import {ref} from 'vue'
-import { ElMessage } from 'element-plus'
-const agreement = ref(false)
-const toLogin = () => {
-    if (agreement.value) {
-        // window.location.href = 'https://ids.ecnu.edu.cn/authserver/login?service=http://localhost:8080/login'
-        window.location.href = '/'
-    } else {
-        ElMessage({
-            message: '请先阅读并同意《用户协议》',
-            type: 'warning',
-        })
-    }
+
+export default {
+    name: "Login1",
+    data() {
+        return {
+            agreement: ref(false),
+        };
+    },
+    methods: {
+        toLogin() {
+            if (agreement.value) {
+                // window.location.href = 'https://ids.ecnu.edu.cn/authserver/login?service=http://localhost:8080/login'
+                window.location.href = '/'
+            } else {
+                alert('error')
+            }
+        }
+    },
 }
 </script>
 
