@@ -1,6 +1,17 @@
 <template>
     <div class="main">
-        <el-button type="primary" class="newTeamButton">新建团队</el-button>
+        <el-button type="primary" @click="dialogFormVisible = true" class="newTeamButton">新建团队</el-button>
+        <el-dialog title="新增团队" :visible.sync="dialogFormVisible" width="30%">
+            <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px">
+                <el-form-item label="团队名称" prop="groupName">
+                    <el-input v-model="form.groupName" style="width: 80%"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="save('form')">确 定</el-button>
+            </span>
+        </el-dialog>
         <table>
             <thead>
                 <tr>
@@ -12,10 +23,10 @@
             </thead>
             <tbody>
                 <tr v-for="item in teamArr" :key="item.name">
-                    <td>{{item.name}}</td>
-                    <td>{{item.id}}</td>
-                    <td>{{item.proj}}</td>
-                    <td>{{item.members}}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.proj }}</td>
+                    <td>{{ item.members }}</td>
                 </tr>
             </tbody>
         </table>
@@ -23,33 +34,59 @@
 </template>
 
 <script>
+import http from "@/http";  // 引入新创建的http实例
 export default {
     name: "MyTeam",
     data() {
         return {
-            teamArr: [{
-                name: "Team A",
-                id: "001",
-                proj: "Project X",
-                members: "John, Mary, Alice",
-            },{
-                name: "Team B",
-                id: "002",
-                proj: "Project Y",
-                members: "Bob, Emily, David",
-            },{
-                name: "Team C",
-                id: "003",
-                proj: "Project Z",
-                members: "Lisa, Michael, Sarah",
-            }]
+            user: '',
+            tableData: [],
+            currentPage: 1,
+            form: {
+                groupName: '',
+                uid: '',
+                resp: ''
+            },
+            dialogFormVisible: false,
+            rules: {
+                groupName: [
+                    { required: true, message: '请输入名称', trigger: 'blur' },
+                    { max: 10, message: '不能超过10位', trigger: 'blur' }
+                ]
+            }
         };
     },
     methods: {
-        // Your methods here
+        save(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.form.uid = this.user.uid
+                    this.form.resp = 1
+                    console.log(this.user.uid)
+                    http.post("/group/add", this.form).then(res => {
+                        if (res.code === '0') {
+                            this.$message({
+                                type: "success",
+                                message: "添加成功！"
+                            })
+                            this.load()
+                            this.dialogFormVisible = false
+                        } else {
+                            this.$message({
+                                type: "error",
+                                message: res.msg
+                            })
+                        }
+                    })
+                } else {
+                    alert("请检查！！");
+                    return false;
+                }
+            })
+        }
     },
     mounted() {
-        // Your mounted code here
+        this.user = JSON.parse(sessionStorage.getItem("user"));
     },
 };
 </script>
@@ -59,6 +96,7 @@ export default {
     position: relative;
     padding-top: 50px;
 }
+
 table {
     width: 100%;
     table-layout: fixed;
@@ -85,6 +123,7 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #ddd;
 }
+
 .newTeamButton {
     position: absolute;
     width: 150px;
