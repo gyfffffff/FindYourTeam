@@ -132,6 +132,7 @@ export default {
       request.get("/group/load",
           {params:{pageNum: this.currentPage, pageSize:9, uid: this.user.uid}}).then(res => {
         this.tableData = res.data.records;
+        console.log(res.data)
         this.tableData.filter((item) => {
           if(item.resp === 0)
             item.resp = "成员"
