@@ -71,4 +71,6 @@ public class FileController {
         Page<FileEntity> fileEntityPage = fileMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return Result.success(fileEntityPage);
     }
+
+
 }

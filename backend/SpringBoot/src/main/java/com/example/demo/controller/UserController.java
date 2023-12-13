@@ -5,15 +5,24 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.demo.common.Result;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
     @Resource
     UserMapper userMapper;
+
+    @Autowired
+    UserService userService;
 
     @PostMapping("/register")
     public Result<?> save(@RequestBody User user){
@@ -40,5 +49,30 @@ public class UserController {
             return Result.error("-1","用户不存在");
         }
         return Result.success(user);
+    }
+
+    @PostMapping("/avatar")
+    public Result<?> avatar(@RequestBody MultipartFile pic, String uid, HttpServletRequest request){
+        String res = userService.updateAvatar(pic, uid, request);
+        if(res.equals("failed"))
+            return Result.error("-1","上传失败！");
+        else
+            return Result.success();
+    }
+
+    @GetMapping("/getavatar")
+    public Result<?> avatar(String uid) {
+        User user = userMapper.selectById(uid);
+        String path = user.getAvatar();
+        return Result.success(path);
+    }
+
+    public void saveFile(MultipartFile file, String path, String filename) throws Exception {
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File newFile = new File(path + filename);
+        file.transferTo(newFile);
     }
 }

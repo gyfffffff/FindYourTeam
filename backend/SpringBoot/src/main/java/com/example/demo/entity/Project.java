@@ -17,6 +17,7 @@ public class Project {
     String gid;
     Date startdate;
     Date ddl;
-    int ppid;
     int done;
+    String tag;
+    String mainpic_path;
 }

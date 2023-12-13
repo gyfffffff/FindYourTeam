@@ -14,4 +14,6 @@ public interface ProjectService {
     public String done(Project project);
 
     public String end(Project project);
+
+    public String savemainpic_path(Integer pid, String path);
 }

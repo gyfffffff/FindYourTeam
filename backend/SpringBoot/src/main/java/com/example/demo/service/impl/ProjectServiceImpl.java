@@ -12,9 +12,12 @@ import com.example.demo.mapper.GroupMapper;
 import com.example.demo.mapper.ProjectMapper;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.service.ProjectService;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -71,4 +74,12 @@ public class ProjectServiceImpl implements ProjectService {
         projectMapper.update(null,updateWrapper);
         return "success";
     }
+
+    @Override
+    public String savemainpic_path(Integer pid, String path){
+
+        System.out.println("path:"+path);
+        return "success";
+    }
+
 }

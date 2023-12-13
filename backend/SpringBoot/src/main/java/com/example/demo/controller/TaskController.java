@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/task")
+@CrossOrigin
 public class TaskController {
     @Autowired
     TaskService taskService;
