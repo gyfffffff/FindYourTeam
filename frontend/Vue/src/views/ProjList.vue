@@ -1,202 +1,173 @@
-<template>
-  <div>
-    <Header/>
-    <div style="margin: 10px 10px; height: 630px; background-color: white">
-      <div style="padding-top: 10px; color: #606266; font-size: 25px; text-align: center">我的全部项目</div>
-      <!--      表格展示-->
-      <div style="padding: 20px">
-        <el-table
-            class="list"
-            :data="tableData"
-            border
-            stripe
-            style="width: 100%"
-            @row-click="openDetails">
-          <el-table-column
-              prop="title"
-              label="名称"
-              width="300">
-          </el-table-column>
-          <el-table-column
-              prop="startdate"
-              label="创建时间"
-              sortable
-              width="300">
-          </el-table-column>
-          <el-table-column
-              prop="ddl"
-              label="截止时间"
-              sortable
-              width="300">
-          </el-table-column>
-          <el-table-column
-              prop="done"
-              label="状态"
-              :filters="[{ text: '已完成', value: '已完成' }, { text: '未完成', value: '未完成' }, { text: '已终止', value: '已终止' }]"
-              :filter-method="filterTag">
-          </el-table-column>
-        </el-table>
-        <!--        分页-->
-        <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            layout="prev, pager, next"
-            :total="100"
-            style="margin-top: 20px; margin-left: 530px; float: left">
-        </el-pagination>
-        <div style="float: right; margin-top: 15px">
-          <el-button @click="add" size="medium" type="success" style="margin-right: 10px;">新增项目</el-button>
-        </div>
-      </div>
-      <!--      新增弹窗-->
-      <el-dialog
-          title="新增项目"
-          :visible.sync="dialogVisible"
-          width="30%"
-          :before-close="handleClose">
-        <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px">
-          <el-form-item label="项目名称" prop="title">
-            <el-input v-model="form.title" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="项目简介" prop="intro">
-            <el-input v-model="form.intro" type="textarea" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="团队ID" prop="gid">
-            <el-input v-model="form.gid" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="创建时间" prop="startdate">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.startdate" style="width: 80%;"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="截止时间" prop="ddl">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.ddl" style="width: 80%;"></el-date-picker>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="save('form')">确 定</el-button>
-        </span>
-      </el-dialog>
-    </div>
-    <Footer/>
-  </div>
-</template>
-
 <script>
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import request from "@/utils/request";
-
+import NavBar from "@/components/NavBar.vue";
+import { ref } from "vue";
 export default {
-  name: "ProjList",
-  components: {Footer, Header},
-  data(){
-    return{
-      user: '',
-      dialogVisible: false,
-      currentPage: 1,
-      form: {
-        title: '',
-        intro: '',
-        user: '',
-        gid: '',
-        startdate: '',
-        ddl: ''
-      },
-      rules: {
-        title: [
-          {required: true, message: '请输入名称', trigger: 'blur'},
-          {max:10, message: '不能超过10位', trigger: 'blur' }
-        ],
-        intro: [
-          {max:30, message: '不能超过30位', trigger: 'blur' }
-        ],
-        gid: [
-          {required: true, message: '请输入团队ID', trigger: 'blur'}
-        ],
-        startdate: [
-          {required: true, message: '请选择日期', trigger: 'blur'}
-        ],
-        ddl: [
-          {required: true, message: '请选择日期', trigger: 'blur'}
-        ]
-      },
-      tableData: []
-    }
+  name: "Digital",
+  components: { NavBar },
+  data() {
+    return {
+      user: "",
+      categories: ref([
+        { name: "国创", id: 1, checked: false },
+        { name: "市创", id: 2, checked: false },
+        { name: "校创", id: 3, checked: false },
+        { name: "招募队友中", id: 4, checked: false },
+        { name: "已结项", id: 5, checked: false },
+        { name: "进行中", id: 6, checked: false },
+        { name: "其他", id: 7, checked: false },
+      ]),
+      cardArr: [1, 2, 3, 4, 5, 6]
+    };
   },
   created() {
     this.user = JSON.parse(sessionStorage.getItem("user"));
-    this.check()
-    this.load()
+    this.check();
   },
   methods: {
-    check(){
-      if(!this.user)
-        this.$router.push('/login')
+    check() {
+      if (!this.user) this.$router.push("/login");
     },
-    add(){
-      this.dialogVisible = true;
-      this.form = {};
-    },
-    save(formName){
-      this.$refs[formName].validate((valid) => {
-        if(valid){
-          this.form.uid = this.user.uid
-          console.log(this.form)
-          request.post("/project/save",this.form).then(res => {
-            if(res.code === '0'){
-              this.$message({
-                type: "success",
-                message: "添加成功！"
-              })
-              this.load()
-              this.dialogVisible = false
-            }else{
-              this.$message({
-                type: "error",
-                message: res.msg
-              })
-            }
-          })
-        }else{
-          alert("请检查！！");
-          return false;
-        }
-      })
-    },
-    load(){
-      request.get("/project/load", {params:{pageNum: this.currentPage, pageSize:9, uid: this.user.uid}}).then(res => {
-        this.tableData = res.data.records;
-        this.tableData.filter((item) => {
-          if(item.done === 0)
-            item.done = "未完成"
-          if(item.done === 1)
-            item.done = "已完成"
-          if(item.done === 2)
-            item.done = "已终止"
-        })
-      })
-    },
-    handleCurrentChange(val){
-      this.currentPage = val;
-      this.load()
-    },
-    openDetails(row){
-      this.$router.push({
-        path:'/project',
-        query:{
-          projectId: row.pid
-        }
-      })
-    },
-    filterTag(value, row) {
-      return row.done === value;
+    navClick(val) {
+      this.$router.push(val);
     }
-  }
-}
+  },
+};
 </script>
 
+<template>
+  <div>
+    <NavBar></NavBar>
+    <hr />
+    <div class="title">所有项目</div>
+    <!-- 项目的主体区域 -->
+    <div class="main">
+      <!-- 搜索框，使用 form 实现，把搜索结果传回给后端 -->
+      <div class="searchBox">
+        <el-form :model="form" label-width="100px">
+          <el-form-item label="筛选">
+            <el-checkbox v-for="item in categories" :v-model="item.checked" :label="item.name" border></el-checkbox>
+          </el-form-item>
+          <el-form-item label="关键字">
+            <el-input class='formSearchText' placeholder="请输入搜索内容"></el-input>
+            <el-button class="formButton" type="primary">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <!-- 搜索结果，使用 el-col + el-card 实现 -->
+      <el-row>
+        <el-col :span="6" v-for="item in cardArr" :key="item">
+          <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item)">
+            <img src="../assets/cardImg.png" class="cardImage" />
+            <p class="cardTitle" truncated>
+              Python 入门111111111111
+            </p>
+            <p class="cardDetail">
+              这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项
+            </p>
+            <div class="cardBottom">
+              <p class="cardTime">2023-11-11 12:00</p>
+              <el-tag type="success" effect="dark" class="cardTag">HOT</el-tag>
+            </div>
+
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-.list:hover{
-  cursor: pointer;
+.title {
+  width: 100%;
+  height: 60px;
+  background-color: rgba(151, 163, 234, 0.15);
+  line-height: 60px;
+  font-size: 24px;
+  font-weight: 600;
+  padding-left: 70px;
 }
-</style>
+
+.main {
+  width: 100%;
+  height: 100%;
+  background-color: #cccccc;
+  padding: 20px 40px;
+}
+
+.searchBox {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px
+}
+
+.formSearchText {
+  width: 500px;
+}
+
+.formButton {
+  width: 100px;
+  height: 40px;
+  background-color: #b70031;
+  margin-left: 200px !important;
+  color: white;
+  font-size: 16px !important;
+  line-height: 40px !important;
+  padding: 0;
+  align-items: center;
+  text-align: center;
+  border: 0;
+}
+
+.projectCard {
+  width: 90%;
+  height: 400px;
+  margin-top: 30px;
+  margin-left: 20px;
+  background-color: #fff;
+}
+
+.cardImage {
+  width: 100%;
+  height: 250px;
+}
+
+.cardTitle {
+  margin: 5px 0;
+  font-size: 20px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardDetail {
+  height: 40px;
+  margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardTag {
+  height: 30px;
+  background-color: red !important;
+  margin-left: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  border-radius: 20px;
+  border: 0;
+}
+
+.cardBottom {
+  height: 30px;
+  display: flex;
+}
+
+.cardTime {
+  height: 30px;
+  background-color: #cccccc;
+  border-radius: 5px;
+  line-height: 30px;
+  font-size: 12px;
+  padding: 0 15px;
+}</style>

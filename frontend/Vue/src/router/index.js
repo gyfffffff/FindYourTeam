@@ -7,6 +7,7 @@ import App from "@/App.vue";
 import Register from "@/views/Register.vue";
 import Project from "@/views/Project.vue";
 import ProjList from "@/views/ProjList.vue";
+import ProjDetail from "@/views/ProjDetail.vue";
 import Task from "@/views/Task.vue";
 import TaskList from "@/views/TaskList.vue";
 import Group from "@/views/Group.vue";
@@ -58,6 +59,12 @@ const routes = [
     path: '/projlist',
     name: 'projlist',
     component: ProjList
+  },
+  {
+    // 项目详情
+    path: '/projdetail',
+    name: 'projdetail',
+    component: ProjDetail
   },
   {
     // 任务页面

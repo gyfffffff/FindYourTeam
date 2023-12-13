@@ -23,12 +23,24 @@ export default {
                 { label: "我的任务", checked: false, name: "button3" },
             ]),
             activeButton: "button1",
+            avatar_alt: '../assets/avatar.png',
         };
     },
     created() {
         this.fetchData();
+        this.fetchAvatar();
     },
     methods: {
+        avatarURL() {
+            http.get("/user/getavatar?uid=" + JSON.parse(sessionStorage.getItem("user")).uid)
+                .then(res => {
+                    return res.data.data
+                })
+                .catch(err => {
+                    console.log(err);
+                    return this.avatar_alt
+                })
+        },
         selectButton(val) {
             this.activeButton = val;
         },
@@ -37,15 +49,26 @@ export default {
         },
         fetchData() {
             const uid = JSON.parse(sessionStorage.getItem("user")).uid;
-            console.log('/user/byid?uid='+uid)
-            http.get('/user/byid?uid='+uid)
+            // console.log('/user/byid?uid='+uid)
+            http.get('/user/byid?uid=' + uid)
                 .then(res => {
-                        this.infoArr = [
-                        { label: "姓名", value: res.data.data.name},
-                        { label: "学号", value: res.data.data.uid},
-                        { label: "学院", value: res.data.data.company},
-                        { label: "年级", value: res.data.data.grade},
+                    this.infoArr = [
+                        { label: "姓名", value: res.data.data.name },
+                        { label: "学号", value: res.data.data.uid },
+                        { label: "学院", value: res.data.data.company },
                     ];
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+        fetchAvatar() {
+            const uid = JSON.parse(sessionStorage.getItem("user")).uid;
+            const url = '/user/getavatar?uid='+uid
+            http.get(url)
+                .then(res => {
+                    console.log(res.data.data)
+                    this.avatar = res
                 })
                 .catch(err => {
                     console.log(err);
@@ -61,7 +84,7 @@ export default {
         <!-- 个人信息部分 -->
         <div class="info">
             <div class="avatarBox">
-                <img src="../assets/avatar.png" alt="avatar" class="avatar" />
+                <img :src="avatar" alt="avatar_alt" class="avatar" />
             </div>
             <div class="detailInfo">
                 <p v-for="(item, index) in infoArr" :key="item.uid || index" class="infoItem">
