@@ -1,7 +1,7 @@
 <template>
     <div class="main">
-        <el-button type="text" @click="dialogFormVisible = true">新增项目</el-button>
-
+        <!-- <el-button type="text" @click="dialogFormVisible = true">新增项目</el-button> -->
+        <el-button type="primary" @click="dialogFormVisible = true" class="newProjBtn">新增项目</el-button>
         <el-dialog title="新增项目" :visible.sync="dialogFormVisible">
             <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px">
                 <el-form-item label="项目名称" prop="title" :label-width="formLabelWidth">
@@ -143,6 +143,7 @@ export default {
 <style scoped>
 .main {
     position: relative;
+    width: 875px;
 }
 
 .cardTitle {
@@ -159,7 +160,7 @@ export default {
     height: 250px;
 }
 
-.newProjButton {
+.newProjBtn {
     position: absolute;
     width: 150px;
     height: 40px;
@@ -170,6 +171,8 @@ export default {
     top: 0px;
     right: 0px;
     padding: 0 10px;
+    z-index: 100;
+
 }
 
 .cardView {

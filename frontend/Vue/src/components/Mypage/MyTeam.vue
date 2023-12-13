@@ -13,21 +13,21 @@
             </span>
         </el-dialog>
         <el-table :data="tableData" border stripe style="width: 100%">
-            <el-table-column prop="gid" label="团队ID" width="500">
+            <el-table-column prop="gid" label="团队ID" width="200">
             </el-table-column>
-            <el-table-column prop="groupName" label="团队名称" width="450">
+            <el-table-column prop="groupName" label="团队名称" width="200">
             </el-table-column>
             <el-table-column prop="resp" label="角色" :filters="[{ text: '负责人', value: '负责人' }, { text: '成员', value: '成员' }]"
                 :filter-method="filterResp" width="250">
             </el-table-column>
-            <el-table-column prop="groupName" label="团队名称" width="450">
+            <el-table-column prop="groupName" label="团队名称" width="200">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="200">
                 <template slot-scope="scope">
                     <el-button @click="openDetails(scope.row)" type="success" size="small"
                         style="margin-left: 10px">查看</el-button>
                     <el-button @click="gotoChat(scope.row)" type="success" size="small"
-                        style="margin-left: 10px">团队群聊</el-button>
+                        >团队群聊</el-button>
                 </template>
             </el-table-column>
         </el-table>

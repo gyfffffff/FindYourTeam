@@ -116,7 +116,7 @@ export default {
 }
 
 .info {
-    width: 500px;
+    width: 390px;
     height: 100%;
     padding: 20px;
     border-right: 1px solid #888;
@@ -165,7 +165,7 @@ export default {
 }
 
 .myView {
-    width: 1144px;
+    width: 875.5px;
     height: 100%;
     padding: 20px;
 }

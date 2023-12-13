@@ -179,7 +179,7 @@ export default {
 .right {
   background-color: wheat;
 }
-.left {
+/* .left {
   background-color: limegreen;
-}
+} */
 </style>
