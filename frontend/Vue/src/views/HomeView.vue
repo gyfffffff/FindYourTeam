@@ -15,12 +15,12 @@ export default {
     },
     created() {
         this.user = JSON.parse(sessionStorage.getItem("user"));
-        this.check();
+        // this.check();
         this.load()
     },
     methods: {
         check() {
-            if (!this.user) this.$router.push("/login");
+            if (!this.user) this.$router.push("/login1");
         },
         // 点击导航栏时候执行的操作
         navClick(val) {
