@@ -2,25 +2,88 @@
 import Footer from "@/components/Footer.vue";
 import NavBar from "@/components/NavBar.vue";
 import http from "@/http";
+import axios from "axios";
 export default {
     name: "HomeView",
     components: { NavBar, Footer },
     data() {
         return {
-            user: "",
+            xuehao: "",
+            name: "",
             cardArr: [],
             noticeArr: [],
             tableData: [],
+            token: "",
+            token_type: "",
         };
     },
     created() {
-        this.user = JSON.parse(sessionStorage.getItem("user"));
-        // this.check();
-        this.load()
+        this.initialize();
     },
     methods: {
+        async initialize() {
+            await this.getuser(); // Wait for getuser to complete
+            // console.log("23333", this.xuehao);
+            this.check();
+            // this.load()
+        },
+        async getCode() {
+            const name = "code"
+            const url = window.location.href;
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return results[2].replace(/\+/g, " ");
+        },
+        async getToken(code) {
+            try {
+                const url2 = "https://api.ecnu.edu.cn/oauth2/token?grant_type=authorization_code&client_id=18cf6a2d57ab0f88&client_secret=0b157bbd4fb9ec63aeb6f06ac3f9dd8b&scope=ECNU-Basic&redirect_uri=http://localhost:8080/home&code=" + code
+                const response = await axios.post(url2);
+                return { token: response.data.access_token, tokenType: response.data.token_type };
+            } catch (error) {
+                console.error('Error fetching token:', error);
+                throw error;
+            }
+        },
+
+        async getUserInfo(token, tokenType) {
+            try {
+                const config = {
+                    method: 'get',
+                    url: 'https://api.ecnu.edu.cn/oauth2/userinfo',
+                    headers: {
+                        'Authorization': tokenType + ' ' + token,
+                    },
+                };
+
+                const response = await axios(config);
+                return { userId: response.data.data.userId, userName: response.data.data.name };
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                throw error;
+            }
+        },
+
+        // Usage in your component method
+        async getuser() {
+            try {
+                const code = await this.getCode();
+                const { token, tokenType } = await this.getToken(code);
+                console.log('Access Token:', token);
+                const { userId, userName } = await this.getUserInfo(token, tokenType);
+                console.log('User ID:', userId);
+                this.xuehao = userId;
+                this.name = userName;
+                console.log("75", this.name);
+                console.log("76", this.xuehao);
+            } catch (error) {
+                console.error('Data fetching failed:', error);
+            }
+        },
         check() {
-            if (!this.user) this.$router.push("/login1");
+            console.log("62", this.xuehao);
+            if (!this.xuehao) this.$router.push("/login1");
         },
         // 点击导航栏时候执行的操作
         navClick(val) {
@@ -42,7 +105,7 @@ export default {
         },
         load() {
             http.get("/project/load", {
-                params: { pageNum: 1, pageSize: 3, uid: this.user.uid },
+                params: { pageNum: 1, pageSize: 3},
             }).then((res) => {
                 this.tableData = res.data.data.records;
             });
@@ -60,7 +123,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="homeMain">
         <!-- 导航栏， '首页','项目看板','数字素养','赛事天地' 区域-->
         <NavBar></NavBar>
         <hr />
@@ -74,7 +137,7 @@ export default {
             <el-row>
                 <el-col :span="8" v-for="item in tableData" :key="item.pid">
                     <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item)">
-                        <img src="item.mainpage_path" class="cardImage" />
+                        <img :src="item.mainpage_path" class="cardImage" />
                         <p class="cardTitle" truncated>
                             基于大模型的就业智能查询基于大模型的就业智能查询
                         </p>
@@ -104,6 +167,10 @@ export default {
 </template>
 
 <style scoped>
+.homeMain {
+    width: 100%;
+}
+
 .title {
     width: 100%;
     height: 60px;

@@ -23,7 +23,7 @@ export default {
                 { label: "我的任务", checked: false, name: "button3" },
             ]),
             activeButton: "button1",
-            avatar_alt: '../assets/avatar.png',
+            avatar_alt: require('../assets/avatar.png'),
         };
     },
     created() {
@@ -65,10 +65,12 @@ export default {
         fetchAvatar() {
             const uid = JSON.parse(sessionStorage.getItem("user")).uid;
             const url = '/user/getavatar?uid='+uid
+            console.log('68');
+            
             http.get(url)
                 .then(res => {
-                    console.log(res.data.data)
-                    this.avatar = res
+                    console.log('70', res.data.data)
+                    this.avatar = ''
                 })
                 .catch(err => {
                     console.log(err);
@@ -84,7 +86,7 @@ export default {
         <!-- 个人信息部分 -->
         <div class="info">
             <div class="avatarBox">
-                <img :src="avatar" alt="avatar_alt" class="avatar" />
+                <img :src="this.avatar_alt" alt="avatar_alt" class="avatar" />
             </div>
             <div class="detailInfo">
                 <p v-for="(item, index) in infoArr" :key="item.uid || index" class="infoItem">

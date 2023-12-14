@@ -26,7 +26,7 @@ const routes = [
     path: '/',
     name: 'app',
     component: App,
-    redirect:'/home',
+    redirect:'/login1',
     children:[
       {
         // 主页面

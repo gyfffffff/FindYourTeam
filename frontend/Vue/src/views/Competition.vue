@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-<div>
+<div class="mainCompetition">
     <NavBar/>
     <div class="competitions">
         <div class="noticeInfo" v-for="item in noticeArr" :key="item">
@@ -38,6 +38,9 @@ export default {
 </template>
 
 <style scoped>
+.mainCompetition {
+    width: 100%;
+}
 .competitions {
     width: 100%;
     height: 700px;

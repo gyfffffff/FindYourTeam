@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div style="margin-right: 10px; height: 535px; width: 455px;background-color: white">
     <div style="height: 15px; margin-left: 15px; padding-top: 9px">
       我的项目
@@ -70,4 +70,4 @@ export default {
     .card:hover{
       cursor: pointer;
     }
-</style>
+</style> -->
