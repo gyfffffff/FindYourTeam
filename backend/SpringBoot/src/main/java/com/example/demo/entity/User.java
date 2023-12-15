@@ -10,9 +10,8 @@ import lombok.Data;
 public class User {
     @TableId(value = "uid", type = IdType.AUTO)
     String uid;
-    String password;
+    String password = "1234";
     String name;
-    String company;
-    String grade;
+    String xuehao;
     String avatar;
 }

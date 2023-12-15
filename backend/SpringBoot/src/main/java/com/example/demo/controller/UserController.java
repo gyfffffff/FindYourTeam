@@ -26,12 +26,15 @@ public class UserController {
 
     @PostMapping("/register")
     public Result<?> save(@RequestBody User user){
-        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUid,user.getUid()));
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getXuehao,user.getXuehao()));
+        System.out.println(user.getName());
         if(res!=null){
-            return Result.error("-1","ID已被占用，请重试！");
+            System.out.println(res.getUid());
+            return Result.error("-1",""+res.getUid());
         }
         userMapper.insert(user);
-        return Result.success();
+
+        return Result.success(res.getUid());
     }
 
     @PostMapping("/login")
@@ -51,6 +54,14 @@ public class UserController {
         return Result.success(user);
     }
 
+    @GetMapping("byxuehao") Result<?> byxuehao(@RequestParam String xuehao){
+        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getXuehao,xuehao));
+        if(user == null){
+            return Result.error("-1","用户不存在");
+        }
+        return Result.success(user);
+    }
+
     @PostMapping("/avatar")
     public Result<?> avatar(@RequestBody MultipartFile pic, String uid, HttpServletRequest request){
         String res = userService.updateAvatar(pic, uid, request);
@@ -61,8 +72,8 @@ public class UserController {
     }
 
     @GetMapping("/getavatar")
-    public Result<?> avatar(String uid) {
-        User user = userMapper.selectById(uid);
+    public Result<?> avatar(String xuehao) {
+        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getXuehao, xuehao));
         String path = user.getAvatar();
         return Result.success(path);
     }

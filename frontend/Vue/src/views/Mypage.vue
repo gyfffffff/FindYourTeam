@@ -16,6 +16,7 @@ export default {
     },
     data() {
         return {
+            xuehao: "",
             infoArr: [],
             buttonArr: ref([
                 { label: "我的项目", checked: false, name: "button1" },
@@ -23,14 +24,23 @@ export default {
                 { label: "我的任务", checked: false, name: "button3" },
             ]),
             activeButton: "button1",
+            avatar: '',
             avatar_alt: require('../assets/avatar.png'),
         };
     },
     created() {
+        console.log(1212)
+        this.check();
+        console.log(3232)
         this.fetchData();
+        console.log(3434)
         this.fetchAvatar();
     },
     methods: {
+        check() {
+            this.xuehao = sessionStorage.getItem("xuehao");
+            if (!this.xuehao) this.$router.push("/login");
+        },
         avatarURL() {
             http.get("/user/getavatar?uid=" + JSON.parse(sessionStorage.getItem("user")).uid)
                 .then(res => {
@@ -48,14 +58,13 @@ export default {
             this.$router.push("/");
         },
         fetchData() {
-            const uid = JSON.parse(sessionStorage.getItem("user")).uid;
-            // console.log('/user/byid?uid='+uid)
-            http.get('/user/byid?uid=' + uid)
+            const uid = sessionStorage.getItem("xuehao");
+            http.get('/user/byxuehao?xuehao=' + uid)
                 .then(res => {
+                    console.log(54, res)
                     this.infoArr = [
                         { label: "姓名", value: res.data.data.name },
-                        { label: "学号", value: res.data.data.uid },
-                        { label: "学院", value: res.data.data.company },
+                        { label: "学号", value: res.data.data.xuehao},
                     ];
                 })
                 .catch(err => {
@@ -63,13 +72,12 @@ export default {
                 })
         },
         fetchAvatar() {
-            const uid = JSON.parse(sessionStorage.getItem("user")).uid;
-            const url = '/user/getavatar?uid='+uid
+            const url = '/user/getavatar?xuehao='+sessionStorage.getItem("xuehao")
             
             http.get(url)
                 .then(res => {
                     console.log('70', res.data.data)
-                    this.avatar = ''
+                    this.avatar = res.data.data
                 })
                 .catch(err => {
                     console.log(err);
@@ -85,7 +93,7 @@ export default {
         <!-- 个人信息部分 -->
         <div class="info">
             <div class="avatarBox">
-                <img :src="this.avatar_alt" alt="avatar_alt" class="avatar" />
+                <img :src="this.avatar" alt="avatar_alt" class="avatar" />
             </div>
             <div class="detailInfo">
                 <p v-for="(item, index) in infoArr" :key="item.uid || index" class="infoItem">

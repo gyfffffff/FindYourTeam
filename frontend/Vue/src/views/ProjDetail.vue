@@ -194,6 +194,7 @@ export default {
 #app {
     display: flex;
     flex-direction: column;
+    background-color: #e4e4e4;
 }
 
 .top-panel {

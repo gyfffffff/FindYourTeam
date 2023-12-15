@@ -57,10 +57,10 @@
         </el-pagination>
       </div>
       <!--      新增弹窗-->
-      <el-dialog title="添加成员" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-dialog title="添加成员" :visible.sync="dialogVisible" width="30%" >
         <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px">
-          <el-form-item label="用户学/工号" prop="uid">
-            <el-input v-model="form.uid" style="width: 80%"></el-input>
+          <el-form-item label="用户学/工号" prop="xuehao">
+            <el-input v-model="form.xuehao" style="width: 80%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -73,12 +73,13 @@
 </template>
 
 <script>
-import request from "@/utils/request";
+// import request from "@/utils/request";
+import http from '@/http';
 export default {
   name: "Group",
   data() {
     return {
-      user: '',
+      uid: '',
       groupKey: '',
       groupData: [],
       projectData: [],
@@ -86,7 +87,7 @@ export default {
       tableData: [],
       dialogVisible: false,
       form: {
-        uid: '',
+        xuehao: '',
         resp: '',
         gid: '',
         pid: '',
@@ -98,7 +99,7 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(sessionStorage.getItem("user"));
+    this.uid = sessionStorage.getItem("uid");
     // this.check();
     this.getParams();
     this.load();
@@ -112,21 +113,24 @@ export default {
       this.groupKey = this.$route.query.groupKey;
     },
     load() {
-      request.get("/group/bykey", { params: { key: this.groupKey } }).then(res => {
-        this.groupData = res.data;
-        request.get("/project/byid", { params: { pid: this.groupData.pid } }).then(res => {
-          if (res.code == -1) {
+      http.get("/group/bykey", { params: { key: this.groupKey } }).then(res => {
+        this.groupData = res.data.data;
+        console.log(118, res)
+        http.get("/project/byid", { params: { pid: this.groupData.pid } }).then(res => {
+          console.log(120, res)
+          if (res.data.code == -1) {
             alert("请先新建一个项目并关联该团队");
           }
-          this.projectData = res.data;
-          request.get("/group/bygid", { params: { pageNum: this.currentPage, pageSize: 9, gid: this.groupData.gid } }).then(res => {
-            this.tableData = res.data.records;
+          this.projectData = res.data.data;
+          http.get("/group/bygid", { params: { pageNum: this.currentPage, pageSize: 9, gid: this.groupData.gid } }).then(res => {
+            console.log(125, res)
+            this.tableData = res.data.data.records;
             this.tableData.filter((item) => {
               if (item.resp === 1)
                 item.resp = "团队负责人"
               if (item.resp === 0)
                 item.resp = "团队成员"
-              request.get("user/byid", { params: { uid: item.uid } }).then(res => {
+              http.get("user/byid", { params: { uid: item.uid } }).then(res => {
                 this.$set(item, "name", res.data.name)
                 this.$set(item, "company", res.data.company)
               })
@@ -167,7 +171,7 @@ export default {
           this.form.resp = 0
           this.form.gid = this.groupData.gid
           this.form.groupName = this.groupData.groupName
-          request.post("/group/add", this.form).then(res => {
+          http.post("/group/add", this.form).then(res => {
             if (res.code === '0') {
               this.$message({
                 type: "success",

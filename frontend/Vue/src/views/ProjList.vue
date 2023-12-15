@@ -35,7 +35,7 @@ export default {
       });
     },
     check() {
-      if (!this.user) this.$router.push("/login1");
+      if (!this.user) this.$router.push("/login");
     },
     navClick(val) {
       this.$router.push(val);

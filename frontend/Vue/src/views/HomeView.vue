@@ -8,8 +8,11 @@ export default {
     components: { NavBar, Footer },
     data() {
         return {
-            xuehao: "",
-            name: "",
+            user: {
+                xuehao: "",
+                name: "",
+                avatar: "",
+            },
             cardArr: [],
             compArr: [],
             tableData: [],
@@ -23,8 +26,7 @@ export default {
     methods: {
         async initialize() {
             await this.getuser(); // Wait for getuser to complete
-            // console.log("23333", this.xuehao);
-            // this.check();
+            this.check()
             this.load()
         },
         async getCode() {
@@ -70,21 +72,24 @@ export default {
             try {
                 const code = await this.getCode();
                 const { token, tokenType } = await this.getToken(code);
-                console.log('Access Token:', token);
+                //console.log('Access Token:', token);
                 const { userId, userName } = await this.getUserInfo(token, tokenType);
-                console.log('User ID:', userId);
-                this.xuehao = userId;
-                this.name = userName;
-                console.log("75", this.name);
-                console.log("76", this.xuehao);
-                sessionStorage.setItem("xuehao", this.xuehao)
+                //console.log('User ID:', userId);
+                this.user.xuehao = userId;
+                this.user.name = userName;
+                this.user.avatar = "https://i.imgs.ovh/2023/12/15/6wIg0.png";
+                console.log("user", this.user);
+                const res = await http.post("user/register", this.user)
+                console.log(83, res)
+                this.user.uid = res.data.msg
+                sessionStorage.setItem("xuehao", this.user.xuehao)
+                sessionStorage.setItem("uid", this.user.uid)
             } catch (error) {
                 console.error('Data fetching failed:', error);
             }
         },
         check() {
-            console.log("62", this.xuehao);
-            if (!this.xuehao) this.$router.push("/login1");
+            if (!sessionStorage.getItem("xuehao")) this.$router.push("/login");
         },
         // 点击导航栏时候执行的操作
         navClick(val) {
@@ -104,19 +109,22 @@ export default {
         gotoComplist() {
             this.$router.push("/competition");
         },
+        gotoComp(){
+            this.$router.push("/comdetail")
+        },
         load() {
             http.get("/project/homeload", {
                 params: { pageNum: 1, pageSize: 3 },
             }).then((res) => {
                 this.tableData = res.data.data.records;
-                console.log('112', this.tableData)
+                //console.log('112', this.tableData)
             });
 
             http.get("/compitition/load", {
                 params: { pageNum: 1, pageSize: 3 },
             })
                 .then((res) => {
-                    console.log(res);
+                    //console.log(res);
                     this.compArr = res.data.data.records;
                 });
         },
@@ -158,7 +166,7 @@ export default {
             <el-button class="titleButton" @click="gotoComplist">查看更多</el-button>
         </div>
         <div class="competitions">
-            <div class="noticeInfo" v-for="item in compArr" :key="item.tag">
+            <div class="noticeInfo" v-for="item in compArr" :key="item.tag" @click="gotoComp">
                 <!-- 这里可以多加一些条件渲染 -->
                 <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
                 <p class="noticeTitle">{{ item.title }}</p>
@@ -261,6 +269,7 @@ export default {
     display: flex;
     line-height: 40px;
     align-items: center;
+    cursor: pointer;
 }
 
 .noticeTag {

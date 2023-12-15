@@ -7,7 +7,7 @@
                     <el-input v-model="form.title" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="项目简介" prop="intro" :label-width="formLabelWidth">
-                    <el-input v-model="form.intro" type="textarea" placeholder="输入项目简介，让别人对你的项目一目了然"></el-input>
+                    <el-input v-model="form.intro" type="textarea" placeholder="输入项目简介，让别人对你的项目一目了然, 不超过500字"></el-input>
                 </el-form-item>
                 <el-form-item label="团队ID" prop="gid">
                     <el-input v-model="form.gid" style="width: 80%"></el-input>
@@ -19,13 +19,13 @@
                 <el-form-item label="截止时间" prop="ddl">
                     <el-date-picker type="date" placeholder="选择日期" v-model="form.ddl" style="width: 80%;"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="封面图" prop="mainpic_path" :label-width="formLabelWidth">
+                <!-- <el-form-item label="封面图" prop="mainpic_path" :label-width="formLabelWidth">
                     <el-upload action="http://localhost:9090/project/mainpic" list-type="picture-card" :limit="1"
                         v-model="form.mainpic_path" :on-success="handleUploadSuccess" :on-error="handleUploadError">
                         <el-button size="small" type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">上传项目封面图, 大小不超过10MB</div>
                     </el-upload>
-                </el-form-item>
+                </el-form-item> -->
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -61,14 +61,14 @@ export default {
             dialogTableVisible: false,
             dialogFormVisible: false,
             formLabelWidth: '120px',
-            user: '',
+            uid: '',
             mainpic_path: '',
             dialogVisible: false,
             currentPage: 1,
             form: {
                 title: '',
                 intro: '',
-                user: '',
+                uid: '',
                 gid: '',
                 startdate: '',
                 ddl: '',
@@ -77,11 +77,11 @@ export default {
             },
             rules: {
                 title: [
-                    { required: true, message: '请输入名称', trigger: 'blur' },
-                    { max: 10, message: '不能超过10位', trigger: 'blur' }
+                    { required: true, message: '请输入项目名称', trigger: 'blur' },
+                    { max: 100, message: '不能超过100字', trigger: 'blur' }
                 ],
                 intro: [
-                    { max: 30, message: '不能超过30位', trigger: 'blur' }
+                    { max: 800, message: '不能超过500字', trigger: 'blur' }
                 ],
                 gid: [
                     { required: true, message: '请输入团队ID', trigger: 'blur' }
@@ -106,11 +106,6 @@ export default {
                     this.projectData.done = "已完成"
                 if (this.projectData.done === 2)
                     this.projectData.done = "已终止"
-            })
-        },
-        getGroup() {
-            request.get("/group/bypid", { params: { pid: this.projectId, uid: this.user.uid } }).then(res => {
-                this.groupData = res.data;
             })
         },
         gotoGroup() {
@@ -196,7 +191,7 @@ export default {
         save(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.form.uid = this.user.uid
+                    this.form.uid = this.uid
                     // console.log(this.form)
                     http.post("/project/save", this.form).then(res => {
                         console.log(res)
@@ -205,7 +200,7 @@ export default {
                                 type: "success",
                                 message: "添加成功！"
                             })
-                            // this.load();
+                            this.load();
                             this.dialogFormVisible = false;
                         } else {
                             this.$message({
@@ -223,7 +218,7 @@ export default {
             })
         },
         load() {
-            http.get("/project/load", { params: { pageNum: this.currentPage, pageSize: 8, uid: this.user.uid } }).then(res => {
+            http.get("/project/load", { params: { pageNum: this.currentPage, pageSize: 8, uid: this.uid } }).then(res => {
                 this.tableData = res.data.data.records;
                 this.tableData.filter((item) => {
                     if (item.done === 0)
@@ -237,7 +232,7 @@ export default {
         },
     },
     created() {
-        this.user = JSON.parse(sessionStorage.getItem("user"));
+        this.uid = sessionStorage.getItem("uid");
         this.load()
     },
 };

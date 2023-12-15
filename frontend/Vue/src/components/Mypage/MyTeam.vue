@@ -13,26 +13,27 @@
             </span>
         </el-dialog>
         <div style="padding: 20px">
-        <el-table :data="tableData" border stripe style="width: 100%">
-            <el-table-column prop="gid" label="团队ID" width="200">
-            </el-table-column>
-            <el-table-column prop="groupName" label="团队名称" width="200">
-            </el-table-column>
-            <el-table-column prop="resp" label="角色" :filters="[{ text: '负责人', value: '负责人' }, { text: '成员', value: '成员' }]"
-                :filter-method="filterResp" width="150">
-            </el-table-column>
-            <el-table-column label="操作" width="200">
-                <template slot-scope="scope">
-                    <el-button @click="openDetails(scope.row)" type="success" size="small"
-                        style="margin-left: 10px">查看</el-button>
-                    <el-button @click="gotoChat(scope.row)" type="success" size="small">团队群聊</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="prev, pager, next"
+            <el-table :data="tableData" border stripe style="width: 100%">
+                <el-table-column prop="gid" label="团队ID" width="200">
+                </el-table-column>
+                <el-table-column prop="groupName" label="团队名称" width="200">
+                </el-table-column>
+                <el-table-column prop="resp" label="角色"
+                    :filters="[{ text: '负责人', value: '负责人' }, { text: '成员', value: '成员' }]" :filter-method="filterResp"
+                    width="150">
+                </el-table-column>
+                <el-table-column label="操作" width="200">
+                    <template slot-scope="scope">
+                        <el-button @click="openDetails(scope.row)" type="success" size="small"
+                            style="margin-left: 10px">查看</el-button>
+                        <el-button @click="gotoChat(scope.row)" type="success" size="small">团队群聊</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="prev, pager, next"
                 :total="100" style="margin-top: 20px; margin-left: 310px; float: left">
             </el-pagination>
-    </div>
+        </div>
     </div>
 </template>
 
@@ -43,7 +44,7 @@ export default {
     data() {
         return {
             teamArr: [],
-            user: '',
+            uid: '',
             tableData: [],
             currentPage: 1,
             form: {
@@ -62,6 +63,7 @@ export default {
     },
     methods: {
         openDetails(row) {
+            console.log(66, row)
             this.$router.push({
                 path: '/group',
                 query: {
@@ -79,7 +81,7 @@ export default {
         },
         load() {
             http.get("/group/load",
-                { params: { pageNum: this.currentPage, pageSize: 9, uid: this.user.uid } }).then(res => {
+                { params: { pageNum: this.currentPage, pageSize: 9, uid: this.uid } }).then(res => {
                     // console.log(res)
                     this.tableData = res.data.data.records;
                     this.tableData.filter((item) => {
@@ -101,7 +103,7 @@ export default {
         save(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.form.uid = this.user.uid
+                    this.form.uid = this.uid
                     this.form.resp = 1
                     http.post("/group/add", this.form).then(res => {
                         // console.log(res)
@@ -127,7 +129,7 @@ export default {
         }
     },
     created() {
-        this.user = JSON.parse(sessionStorage.getItem("user"));
+        this.uid = sessionStorage.getItem("uid");
         this.load();
     },
 };

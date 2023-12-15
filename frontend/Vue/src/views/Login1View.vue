@@ -5,19 +5,22 @@ export default {
     name: "Login1",
     data() {
         return {
-            agreement: ref(false),
+            agreement: false,
         };
     },
     methods: {
         toLogin() {
-            if (this.agreement) {
-                window.location.href = 'https://api.ecnu.edu.cn/oauth2/authorize?scope=ECNU-Basic&redirect_uri=http://localhost:8080/home&response_type=code&client_id=18cf6a2d57ab0f88&state=33728846'
-
+            if (!this.agreement) {
+                alert('请先阅读隐私政策并同意');
             } else {
-                alert('请阅读并同意《用户协议》')
+                window.location.href = 'https://api.ecnu.edu.cn/oauth2/authorize?scope=ECNU-Basic&redirect_uri=http://localhost:8080/home&response_type=code&client_id=18cf6a2d57ab0f88&state=33728846'
+                // window.location.href = '/'
             }
-
+        },
+        toPrivacy() {
+            this.$router.push('/privacy')
         }
+
     },
 }
 </script>
@@ -28,7 +31,8 @@ export default {
             <p class="loginTitle">登录</p>
             <el-button class="loginButton" @click="toLogin">前往 ECNU 进行统一认证</el-button>
             <div class="agreement">
-                <el-checkbox v-model="agreement">我已阅读并同意《用户协议》</el-checkbox>
+                <el-checkbox v-model="agreement">我已阅读并同意</el-checkbox>
+                <div @click="toPrivacy">《隐私政策》</div>
             </div>
         </div>
     </div>
@@ -40,6 +44,7 @@ export default {
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
+    min-height: 1080px;
     position: fixed;
 }
 
@@ -50,7 +55,7 @@ export default {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 50%;
+    top: 27%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -83,4 +88,6 @@ export default {
     margin: 0 auto;
     margin-top: 60px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }</style>

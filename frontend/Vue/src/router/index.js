@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Login from "@/views/Login.vue";
-import Login1 from "@/views/Login1View.vue";
+import Login from "@/views/Login1View.vue";
 import App from "@/App.vue";
 import Register from "@/views/Register.vue";
 import Project from "@/views/Project.vue";
@@ -19,6 +18,7 @@ import Digital from "@/views/Digital.vue";
 import Competition from "@/views/Competition.vue";
 import ComDetail from "@/views/ComDetail.vue";
 import Mypage from "@/views/Mypage.vue";
+import Privacy from "@/views/privacy.vue";
 
 Vue.use(VueRouter)
 
@@ -42,6 +42,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    // 隐私政策页面
+    path: '/privacy',
+    name: 'privacy',
+    component: Privacy
   },
   {
     // 注册页面
@@ -132,12 +138,6 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: Mypage
-  },
-  {
-    // 新的 login 页面
-    path: '/login1',
-    name: 'login1',
-    component: Login1
   }
 ]
 
