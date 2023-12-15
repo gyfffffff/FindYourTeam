@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.entity.Apply;
 import com.example.demo.entity.Group;
 import com.example.demo.entity.Project;
 import com.example.demo.entity.Task;
+import com.example.demo.mapper.ApplyMapper;
 import com.example.demo.mapper.GroupMapper;
 import com.example.demo.mapper.ProjectMapper;
 import com.example.demo.mapper.TaskMapper;
@@ -28,6 +30,9 @@ public class ProjectServiceImpl implements ProjectService {
     GroupMapper groupMapper;
     @Resource
     TaskMapper taskMapper;
+
+    @Resource
+    ApplyMapper applyMapper;
 
     @Override
     public String add(Project project){
@@ -79,6 +84,18 @@ public class ProjectServiceImpl implements ProjectService {
     public String savemainpic_path(Integer pid, String path){
 
         System.out.println("path:"+path);
+        return "success";
+    }
+
+    @Override
+    public Page<Project> homeload(Integer pageNum, Integer pageSize){
+        Page<Project> projectPage = projectMapper.selectPage(new Page<>(pageNum,pageSize),null);
+        return projectPage;
+    }
+
+    @Override
+    public String apply(Apply apply){
+        applyMapper.insert(apply);
         return "success";
     }
 

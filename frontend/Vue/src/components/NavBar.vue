@@ -55,12 +55,15 @@ export default {
     padding-top: 15px;
     padding-left: 70px;
     display: flex;
+    border-radius: 5px;
 }
 .navButtons {
     width: 90%;
     height: 90px;
     background-color: #b70031;
     display: flex;
+    border-radius: 5px;
+
 }
 .avatar {
     width: 90px;

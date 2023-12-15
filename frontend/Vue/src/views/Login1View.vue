@@ -1,5 +1,5 @@
 <script>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 export default {
     name: "Login1",
@@ -12,11 +12,11 @@ export default {
         toLogin() {
             if (this.agreement) {
                 window.location.href = 'https://api.ecnu.edu.cn/oauth2/authorize?scope=ECNU-Basic&redirect_uri=http://localhost:8080/home&response_type=code&client_id=18cf6a2d57ab0f88&state=33728846'
-                // window.location.href = '/'
+
             } else {
                 alert('请阅读并同意《用户协议》')
             }
-            
+
         }
     },
 }
@@ -35,7 +35,6 @@ export default {
 </template>
 
 <style scoped>
-
 .wrapper {
     background: url('../../public/loginBackground.png') no-repeat;
     background-size: 100% 100%;
@@ -43,6 +42,7 @@ export default {
     height: 100%;
     position: fixed;
 }
+
 .loginBox {
     width: 750px;
     height: 520px;
@@ -52,14 +52,16 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform:translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
+
 .loginTitle {
     height: 60px;
     font-size: 40px;
     font-weight: 600;
     margin: 60px auto;
 }
+
 .loginButton {
     height: 60px;
     border-radius: 5px;
@@ -73,6 +75,7 @@ export default {
     color: white;
     background-color: #cc0000;
 }
+
 .agreement {
     height: 20px;
     font-size: 14px;
@@ -80,5 +83,4 @@ export default {
     margin: 0 auto;
     margin-top: 60px;
     cursor: pointer;
-}
-</style>
+}</style>

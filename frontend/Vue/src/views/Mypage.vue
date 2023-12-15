@@ -65,7 +65,6 @@ export default {
         fetchAvatar() {
             const uid = JSON.parse(sessionStorage.getItem("user")).uid;
             const url = '/user/getavatar?uid='+uid
-            console.log('68');
             
             http.get(url)
                 .then(res => {

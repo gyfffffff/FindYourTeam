@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.entity.Apply;
 import com.example.demo.entity.Project;
 
 public interface ProjectService {
@@ -16,4 +17,8 @@ public interface ProjectService {
     public String end(Project project);
 
     public String savemainpic_path(Integer pid, String path);
+
+    public Page<Project> homeload(Integer pageNum, Integer pageSize);
+
+    public String apply(Apply apply);
 }

@@ -11,7 +11,7 @@ export default {
             xuehao: "",
             name: "",
             cardArr: [],
-            noticeArr: [],
+            compArr: [],
             tableData: [],
             token: "",
             token_type: "",
@@ -24,8 +24,8 @@ export default {
         async initialize() {
             await this.getuser(); // Wait for getuser to complete
             // console.log("23333", this.xuehao);
-            this.check();
-            // this.load()
+            // this.check();
+            this.load()
         },
         async getCode() {
             const name = "code"
@@ -77,6 +77,7 @@ export default {
                 this.name = userName;
                 console.log("75", this.name);
                 console.log("76", this.xuehao);
+                sessionStorage.setItem("xuehao",this.xuehao)
             } catch (error) {
                 console.error('Data fetching failed:', error);
             }
@@ -91,7 +92,7 @@ export default {
         },
         gotoproj(val) {
             this.$router.push({
-                path: "/project",
+                path: "/projdetail",
                 query: {
                     projectId: val,
                 },
@@ -100,23 +101,23 @@ export default {
         gotoProjlist() {
             this.$router.push("/projlist");
         },
-        gotoTasklist() {
-            this.$router.push("/tasklist");
+        gotoComplist() {
+            this.$router.push("/competition");
         },
         load() {
-            http.get("/project/load", {
-                params: { pageNum: 1, pageSize: 3},
+            http.get("/project/homeload", {
+                params: { pageNum: 1, pageSize: 3 },
             }).then((res) => {
                 this.tableData = res.data.data.records;
             });
 
-            // http
-            //     .get("/task/load", {
-            //         params: { pageNum: 1, pageSize: 3, uid: this.user.uid },
-            //     })
-            //     .then((res) => {
-            //         this.tableData = res.data.records;
-            //     });
+            http.get("/compitition/load", {
+                params: { pageNum: 1, pageSize: 3 },
+            })
+                .then((res) => {
+                    console.log(res);
+                    this.compArr = res.data.data.records;
+                });
         },
     },
 };
@@ -153,13 +154,14 @@ export default {
         <!-- 赛事天地区域 -->
         <div class="title">
             <p>近期赛事</p>
-            <el-button class="titleButton" @click="gotoTasklist">查看更多</el-button>
+            <el-button class="titleButton" @click="gotoComplist">查看更多</el-button>
         </div>
         <div class="competitions">
-            <div class="noticeInfo" v-for="item in noticeArr" :key="item">
-                <el-tag type="success" effect="dark" class="noticeTag">报名中</el-tag>
-                <p class="noticeTitle">关于全国大学生英语能力大赛报名的通知</p>
-                <p class="noticeTime">2023-09-29</p>
+            <div class="noticeInfo" v-for="item in compArr" :key="item.tag">
+                <!-- 这里可以多加一些条件渲染 -->
+                <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
+                <p class="noticeTitle">{{ item.title }}</p>
+                <p class="noticeTime">{{ item.date }}</p>
             </div>
         </div>
         <Footer></Footer>

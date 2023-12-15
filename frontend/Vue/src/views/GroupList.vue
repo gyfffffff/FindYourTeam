@@ -97,7 +97,7 @@ export default {
   },
   created() {
     this.user = JSON.parse(sessionStorage.getItem("user"));
-    this.check()
+    // this.check()
     this.load()
   },
   methods: {
@@ -131,7 +131,7 @@ export default {
     load(){
       request.get("/group/load",
           {params:{pageNum: this.currentPage, pageSize:9, uid: this.user.uid}}).then(res => {
-        this.tableData = res.data.records;
+        this.tableData = res.data.records;formadd
         console.log(res.data)
         this.tableData.filter((item) => {
           if(item.resp === 0)

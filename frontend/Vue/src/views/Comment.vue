@@ -52,7 +52,7 @@ export default {
   },
   created(){
     this.user = JSON.parse(sessionStorage.getItem("user"));
-    this.check();
+    // this.check();
     this.getParams();
     this.load();
   },
