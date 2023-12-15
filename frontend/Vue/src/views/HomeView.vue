@@ -77,7 +77,7 @@ export default {
                 this.name = userName;
                 console.log("75", this.name);
                 console.log("76", this.xuehao);
-                sessionStorage.setItem("xuehao",this.xuehao)
+                sessionStorage.setItem("xuehao", this.xuehao)
             } catch (error) {
                 console.error('Data fetching failed:', error);
             }
@@ -109,6 +109,7 @@ export default {
                 params: { pageNum: 1, pageSize: 3 },
             }).then((res) => {
                 this.tableData = res.data.data.records;
+                console.log('112', this.tableData)
             });
 
             http.get("/compitition/load", {
@@ -135,17 +136,17 @@ export default {
         </div>
         <hr />
         <div class="hotProjects">
-            <el-row>
+            <el-row style="margin-left: 40px;">
                 <el-col :span="8" v-for="item in tableData" :key="item.pid">
-                    <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item)">
-                        <img :src="item.mainpage_path" class="cardImage" />
+                    <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item.pid)">
+                        <img :src="item.pic" class="cardImage" />
                         <p class="cardTitle" truncated>
-                            基于大模型的就业智能查询基于大模型的就业智能查询
+                            {{ item.title }}
                         </p>
                         <p class="cardDetail">
-                            这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项
+                            {{ item.intro }}
                         </p>
-                        <el-tag type="success" effect="dark" class="cardTag">招募队友中</el-tag>
+                        <el-tag type="success" effect="dark" class="cardTag">{{ item.tag }}</el-tag>
                     </el-card>
                 </el-col>
             </el-row>
@@ -211,16 +212,16 @@ export default {
 }
 
 .projectCard {
-    width: 80%;
+    width: 90%;
     height: 400px;
     margin-top: 30px;
-    margin-left: 40px;
     background-color: #fff;
 }
 
 .cardImage {
     width: 100%;
     height: 250px;
+    object-fit: contain;
 }
 
 .cardTitle {
@@ -233,14 +234,14 @@ export default {
 }
 
 .cardDetail {
-    height: 40px;
-    margin-top: 10px;
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .cardTag {
+    margin-top: 20px;
     border-radius: 20px;
     background-color: #008672 !important;
 }

@@ -17,6 +17,7 @@ import Comment from "@/views/Comment.vue";
 import Chat from "@/views/Chat.vue";
 import Digital from "@/views/Digital.vue";
 import Competition from "@/views/Competition.vue";
+import ComDetail from "@/views/ComDetail.vue";
 import Mypage from "@/views/Mypage.vue";
 
 Vue.use(VueRouter)
@@ -26,8 +27,8 @@ const routes = [
     path: '/',
     name: 'app',
     component: App,
-    redirect:'/login1',
-    children:[
+    redirect: '/home',
+    children: [
       {
         // 主页面
         path: '/home',
@@ -119,6 +120,12 @@ const routes = [
     path: '/competition',
     name: 'competition',
     component: Competition
+  },
+  {
+    // 赛事详情
+    path: '/comdetail',
+    name: 'comdetail',
+    component: ComDetail
   },
   {
     // 个人信息

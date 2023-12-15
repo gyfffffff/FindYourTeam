@@ -15,9 +15,12 @@ public class Project {
     String title;
     String intro;
     String gid;
-    Date startdate;
-    Date ddl;
+    String startdate;
+    String ddl;
     int done;
     String tag;
-    String mainpic_path;
+    String pic;
+    String requirement;
+
+
 }

@@ -1,11 +1,13 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { ref } from "vue";
+import http from "@/http";
 export default {
   name: "Digital",
   components: { NavBar },
   data() {
     return {
+      tableData: [],
       user: "",
       categories: ref([
         { name: "国创", id: 1, checked: false },
@@ -20,16 +22,32 @@ export default {
     };
   },
   created() {
-    this.user = JSON.parse(sessionStorage.getItem("user"));
-    // this.check();
+    this.xuehao = sessionStorage.getItem("xuehao");
+    this.load()
   },
   methods: {
+    load() {
+      http.get("/project/homeload", {
+        params: { pageNum: 1, pageSize: 9 },
+      }).then((res) => {
+        this.tableData = res.data.data.records;
+        console.log('33', this.tableData)
+      });
+    },
     check() {
-      if (!this.user) this.$router.push("/login");
+      if (!this.user) this.$router.push("/login1");
     },
     navClick(val) {
       this.$router.push(val);
-    }
+    },
+    gotoproj(val) {
+      this.$router.push({
+        path: "/projdetail",
+        query: {
+          projectId: val,
+        },
+      });
+    },
   },
 };
 </script>
@@ -54,21 +72,17 @@ export default {
         </el-form>
       </div>
       <!-- 搜索结果，使用 el-col + el-card 实现 -->
-      <el-row>
-        <el-col :span="6" v-for="item in cardArr" :key="item">
-          <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item)">
-            <img src="../assets/cardImg.png" class="cardImage" />
+      <el-row style="margin-left: 40px;">
+        <el-col :span="8" v-for="item in tableData" :key="item.pid">
+          <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item.pid)">
+            <img :src="item.pic" class="cardImage" />
             <p class="cardTitle" truncated>
-              Python 入门111111111111
+              {{ item.title }}
             </p>
             <p class="cardDetail">
-              这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项
+              {{ item.intro }}
             </p>
-            <div class="cardBottom">
-              <p class="cardTime">2023-11-11 12:00</p>
-              <el-tag type="success" effect="dark" class="cardTag">HOT</el-tag>
-            </div>
-
+            <el-tag type="success" effect="dark" class="cardTag">{{ item.tag }}</el-tag>
           </el-card>
         </el-col>
       </el-row>
@@ -120,15 +134,15 @@ export default {
 
 .projectCard {
   width: 90%;
-  height: 400px;
-  margin-top: 30px;
-  margin-left: 20px;
+  height: 375px;
+  margin: 20px;
   background-color: #fff;
 }
 
 .cardImage {
   width: 100%;
   height: 250px;
+  object-fit: contain;
 }
 
 .cardTitle {
@@ -141,8 +155,8 @@ export default {
 }
 
 .cardDetail {
-  height: 40px;
-  margin-top: 10px;
+  height: 26px;
+  margin-top: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -150,8 +164,7 @@ export default {
 
 .cardTag {
   height: 30px;
-  background-color: red !important;
-  margin-left: 30px;
+  margin-top: 3px;
   line-height: 30px;
   font-size: 12px;
   border-radius: 20px;
@@ -170,4 +183,5 @@ export default {
   line-height: 30px;
   font-size: 12px;
   padding: 0 15px;
-}</style>
+}
+</style>

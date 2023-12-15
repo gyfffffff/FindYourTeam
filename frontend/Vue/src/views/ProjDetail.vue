@@ -8,27 +8,27 @@
                     <!-- 后端传回数据 -->
                     <div class="item">
                         <label class="subtitle">项目名称:</label>
-                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.name }}</p>
+                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.title }}</p>
                     </div>
 
                     <div class="item">
                         <label class="subtitle">项目简介:</label>
-                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.description }}</p>
+                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.intro }}</p>
                     </div>
 
                     <div class="item">
                         <label class="subtitle">项目状态:</label>
-                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.status }}</p>
+                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.tag }}</p>
                     </div>
 
                     <div class="item">
                         <label class="subtitle">开始日期:</label>
-                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.startDate }}</p>
+                        <p style="margin-top: 10px; margin-bottom: 10px;">{{ project.startdate }}</p>
                     </div>
 
                     <div class="item">
-                        <label class="subtitle">团队名称:</label>
-                        <p style="margin-top: 10px; margin-bottom: 10px; font-size: 20px;">{{ project.manager }}</p>
+                        <label class="subtitle">团队ID:</label>
+                        <p style="margin-top: 10px; margin-bottom: 10px; font-size: 20px;">{{ project.gid }}</p>
                     </div>
                 </div>
             </div>
@@ -36,11 +36,11 @@
             <!-- 右侧 -->
             <div class="right-panel">
                 <div class="container">
-                    <img src="../assets/cardImg.png" alt="Project Image" class="centered-image" />
+                    <img :src="project.pic" alt="Project Image" class="centered-image" />
                 </div>
 
                 <p style="margin-top: 10px; font-weight: bold; text-align: center; font-size: 30px;">
-                    项目title——项目title项目title项目title项目title项目title</p>
+                    {{ project.title }}</p>
 
                 <div class="avatars">
                     <p style="margin-left: 60px;">团队成员</p>
@@ -48,7 +48,7 @@
                     <img src="../assets/avatar.png" alt="team member" class="avatar" />
                     <img src="../assets/avatar.png" alt="team member" class="avatar" />
                 </div>
-                <el-tag type="success" effect="dark" class="cardTag">招募队友中</el-tag>
+                <el-tag type="success" effect="dark" class="cardTag">{{ project.tag }}</el-tag>
             </div>
 
         </div>
@@ -57,7 +57,7 @@
             <div class="section">
                 <div class="title-bar">演示视频</div>
                 <div class="content">
-                    <p>暂无演示视频</p>
+                    <iframe src="//player.bilibili.com/player.html?aid=576959043&bvid=BV1Uz4y1F7N4&cid=1292195312&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
                 </div>
             </div>
 
@@ -65,6 +65,7 @@
             <div class="section">
                 <div class="title-bar">资源下载</div>
                 <div class="content">
+                    <a class="link" href="https://github.com/Bruce-Jay/Opensoda-Cli">请移步github</a>
                 </div>
             </div>
 
@@ -72,12 +73,7 @@
             <div class="section">
                 <div class="title-bar">队友招募</div>
                 <div class="join">
-                    <p>要求：<br />
-                        有软件开发经验（小程序、app均可）<br />
-                        - 有团队合作意识，主动沟通<br />
-                        - 项目已经和指导老师沟通，得到了老师认可，很有前景！！<br />
-                        现有的团队成员非常友善，队长曾获浙江高中生创新大赛二等奖。</p>
-                </div>
+                    {{ project.requirement}} </div>
             </div>
             <a class="link" @click="apply">我要申请加入团队</a>
             <el-dialog title="申请问卷" :visible.sync="dialogVisible" width="45%">
@@ -108,14 +104,8 @@ import axios from "axios";
 export default {
     data() {
         return {
-            project: {
-                pid: '',
-                name: '项目名称',
-                description: '项目简介项目简介项目简介项目简介项目简介项目简介',
-                status: '进行中',
-                startDate: '2023/12/12',
-                manager: 'hh',
-            },
+            pid: '',
+            project: {},
             xuehao: '',
             dialogVisible: false,
             form: {
@@ -136,9 +126,19 @@ export default {
     },
     created() {
         this.xuehao = sessionStorage.getItem("xuehao");
+        console.log(140, this.$route)
+        this.pid = this.$route.query.projectId;
         this.load();
     },
     methods: {
+        load() {
+            http.get("/project/byid?pid=" + this.pid)
+                .then((res) => {
+                    this.project = res.data.data;
+                    console.log(149, this.project);
+
+                });
+        },
         apply() {
             this.dialogVisible = true;
         },
@@ -150,7 +150,7 @@ export default {
                 if (valid) {
                     this.form.uid = this.xuehao
                     this.form.pid = 1
-                
+
                     var data = JSON.stringify({
                         "uid": this.form.uid,
                         "pid": this.form.pid,
@@ -177,9 +177,9 @@ export default {
                                 this.dialogVisible = false;
                             } else if (response.data.code != 0) {
                                 alert(response.data.msg);
-                            } 
+                            }
                         })
-                        
+
                 } else {
                     alert("请检查！！");
                     return false;
@@ -190,7 +190,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
     display: flex;
     flex-direction: column;
@@ -201,10 +201,10 @@ export default {
 }
 
 .left-panel {
-    width: 470px;
+    width: 420px;
     height: 720px;
-    padding: 20px;
-    margin-left: 40px;
+    padding: 10px;
+    margin-left: 20px;
     float: left;
 }
 
@@ -216,7 +216,7 @@ export default {
 }
 
 .right-panel {
-    width: 650px;
+    width: 790px;
     height: 720px;
     padding: 20px;
 
@@ -230,9 +230,9 @@ export default {
 }
 
 .centered-image {
-    width: 760px;
-    height: 500px;
-    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .item {
@@ -302,7 +302,7 @@ img {
 }
 
 .join {
-    padding-top: 10px;
+    padding: 10px;
     border-radius: 10px;
     background-color: #fff;
     height: auto;

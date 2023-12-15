@@ -45,7 +45,7 @@ export default {
             <div class="searchBox">
                 <el-form :model="form" label-width="100px">
                     <el-form-item label="类别">
-                        <el-checkbox v-for="item in categories" :v-model="item.checked" :label="item.name" border></el-checkbox>
+                        <el-checkbox v-for="item in categories" :v-model="item.checked" :label="item.name" border style="margin-right:3px;"></el-checkbox>
                     </el-form-item>
                     <el-form-item label="关键字">
                         <el-input class='formSearchText' placeholder="请输入搜索内容"></el-input>
@@ -61,9 +61,9 @@ export default {
                         class="projectCard"
                         @click.native="gotoproj(item)"
                     >
-                        <img src="../assets/cardImg.png" class="cardImage" />
+                        <img src="../assets/cardImg.jpg" class="cardImage" />
                         <p class="cardTitle" truncated>
-                            Python 入门111111111111
+                            Python 入门
                         </p>
                         <p class="cardDetail">
                             这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项目描述这是项
@@ -120,15 +120,16 @@ export default {
     border: 0;
 }
 .projectCard {
-    width: 90%;
-    height: 400px;
+    width: 95%;
+    height: 320px;
     margin-top: 30px;
     margin-left: 20px;
     background-color: #fff;
 }
 .cardImage {
     width: 100%;
-    height: 250px;
+    height: 160px;
+    object-fit: contain;
 }
 .cardTitle {
     margin: 5px 0;

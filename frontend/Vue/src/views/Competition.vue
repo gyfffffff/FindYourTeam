@@ -27,6 +27,9 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
+        },
+        gotoComp(){
+            this.$router.push("/comdetail")
         }
     }
 
@@ -37,7 +40,7 @@ export default {
     <div class="mainCompetition">
         <NavBar />
         <div class="competitions">
-            <div class="noticeInfo" v-for="item in compArr" :key="item">
+            <div class="noticeInfo" v-for="item in compArr" :key="item" @click="gotoComp">
                 <!-- 这里可以多加一些条件渲染 -->
                 <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
                 <p class="noticeTitle">{{ item.title }}</p>
