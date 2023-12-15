@@ -1,5 +1,5 @@
 
-# t_vue
+# FindyourTeam
 
 ## Project setup
 ```

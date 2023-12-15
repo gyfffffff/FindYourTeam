@@ -42,7 +42,7 @@ export default {
             </el-button>
         </div>
         <div class="avatar" ref="avatar" v-on:click="avatarClick()">
-            <img src="../assets/avatar.png" height="90px" width="90px" />
+            <img src="https://i.imgs.ovh/2023/12/15/6H0Pd.jpeg" height="90px" width="90px" />
         </div>
     </div>
 </template>
