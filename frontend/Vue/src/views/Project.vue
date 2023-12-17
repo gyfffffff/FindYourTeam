@@ -3,55 +3,58 @@
     <div class="left">
       <div class="detailInfo">
         <div class="info">
-          项目名称：{{ projectData.title }}
+          <span class="label">项目名称：</span><span class="value">{{ projectData.title }}</span>
+          <!-- <br /> -->
           <br />
           <br />
-          <br />
-          项目简介：{{ projectData.intro }}
-          <br />
-          <br />
-          <br />
-          创建时间：{{ projectData.startdate }}
+          <span class="label">项目简介：</span><span class="value">{{ projectData.intro }}</span>
+          <!-- <br /> -->
           <br />
           <br />
-          <br />
-          截止时间：{{ projectData.ddl }}
-          <br />
-          <br />
-          <br />
-          状态：{{ projectData.done }}
+          <span class="label">创建时间：</span><span class="value">{{ projectData.startdate }}</span>
+          <!-- <br /> -->
           <br />
           <br />
+          <span class="label">截止时间：</span><span class="value">{{ projectData.ddl }}</span>
+          <!-- <br /> -->
           <br />
-          关联团队：<a class="link" @click="gotoGroup">{{ groupData.groupName }}</a>
           <br />
+          <span class="label">状态：</span><span class="value">{{ projectData.done }}</span>
+          <!-- <br /> -->
+          <br />
+          <br />
+          <span class="label">关联团队：</span><a class="link" @click="gotoGroup">{{ groupData.groupName }}</a>
+          <!-- <br /> -->
           <br />
           <br />
           <div v-if="groupData.resp === 1">负责人操作：
             <el-button @click="doneProj" size="medium" type="success" style="margin-left: 10px;">完成项目</el-button>
             <el-button @click="endProj" size="medium" type="success" style="margin-left: 10px;">终止项目</el-button>
+            <a class="link" @click="undo"> 撤销操作 </a>
           </div>
         </div>
       </div>
     </div>
     <!--  关联任务展示部分  -->
     <div style="height: 20px;"></div>
-    <div style="float: right; height: 600px; width: 70%; margin-right: 10px; background-color: white">
+    <div style="float: right; height: 600px; width: 66%; margin-right: 10px; background-color: white">
       <div style="padding-top: 10px; color: #606266; font-size: 23px; text-align: center">关联任务</div>
       <!--      表格展示-->
       <div style="padding: 20px">
         <el-table class="list" :data="tableData" border stripe style="width: 100%" @row-click="openDetails">
-          <el-table-column prop="title" label="任务名称" width="220">
+          <el-table-column prop="title" label="任务名称" width="180">
           </el-table-column>
-          <el-table-column prop="uid" label="对接人" width="220">
+          <el-table-column prop="intro" label="任务详述" width="200">
           </el-table-column>
-          <el-table-column prop="ddl" label="截止时间" sortable width="220">
+          <el-table-column prop="xuehao" label="对接人" width="130">
           </el-table-column>
-          <el-table-column prop="done" label="状态" width="180"
+          <el-table-column prop="ddl" label="截止时间" sortable width="110">
+          </el-table-column>
+          <el-table-column prop="done" label="状态" width="80"
             :filters="[{ text: '已完成', value: '已完成' }, { text: '未完成', value: '未完成' }, { text: '待审核', value: '待审核' }, { text: '已终止', value: '已终止' }]"
             :filter-method="filterDone">
           </el-table-column>
-          <el-table-column prop="emer" label="重要程度"
+          <el-table-column prop="emer" label="重要程度" width="90"
             :filters="[{ text: '非常重要', value: '非常重要' }, { text: '重要', value: '重要' }, { text: '普通', value: '普通' }, { text: '不重要', value: '不重要' }]"
             :filter-method="filterEmer">
           </el-table-column>
@@ -73,8 +76,8 @@
           <el-form-item label="任务简介" prop="intro">
             <el-input v-model="form.intro" type="textarea" style="width: 80%"></el-input>
           </el-form-item>
-          <el-form-item label="对接人UID" prop="uid">
-            <el-input v-model="form.uid" type="textarea" style="width: 80%"></el-input>
+          <el-form-item label="对接人学号" prop="xuehao">
+            <el-input v-model="form.xuehao"  style="width: 80%"></el-input>
           </el-form-item>
           <el-form-item label="创建时间" prop="startdate">
             <el-date-picker type="date" placeholder="选择日期" v-model="form.startdate" style="width: 80%;"></el-date-picker>
@@ -102,11 +105,12 @@
 
 <script>
 import request from "@/utils/request";
+import http from '@/http';
 export default {
   name: "Group",
   data() {
     return {
-      user: "",
+      uid: "",
       projectId: '',
       projectData: [],
       groupData: [],
@@ -116,7 +120,7 @@ export default {
       form: {
         title: '',
         intro: '',
-        uid: '',
+        xuehao: '',
         startdate: '',
         ddl: '',
         pid: '',
@@ -147,7 +151,7 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(sessionStorage.getItem("user"));
+    this.uid = sessionStorage.getItem("uid");
     // this.check();
     this.getParams();
     this.getProj();
@@ -156,15 +160,15 @@ export default {
   },
   methods: {
     check() {
-      if (!this.user)
+      if (!this.uid)
         this.$router.push('/login')
     },
     getParams() {
       this.projectId = this.$route.query.projectId;
     },
     getProj() {
-      request.get("/project/byid", { params: { pid: this.projectId } }).then(res => {
-        this.projectData = res.data;
+      http.get("/project/byid", { params: { pid: this.projectId } }).then(res => {
+        this.projectData = res.data.data;
         if (this.projectData.done === 0)
           this.projectData.done = "未完成"
         if (this.projectData.done === 1)
@@ -174,8 +178,8 @@ export default {
       })
     },
     getGroup() {
-      request.get("/group/bypid", { params: { pid: this.projectId, uid: this.user.uid } }).then(res => {
-        this.groupData = res.data;
+      http.get("/group/bypid", { params: { pid: this.projectId, uid: this.uid } }).then(res => {
+        this.groupData = res.data.data;
       })
     },
     gotoGroup() {
@@ -188,7 +192,7 @@ export default {
     },
     doneProj() {
       this.projectData.done = 1
-      request.put("project/done", this.projectData).then(res => {
+      http.put("project/done", this.projectData).then(res => {
         if (res.code === '0') {
           this.$message({
             type: "success",
@@ -201,7 +205,20 @@ export default {
     },
     endProj() {
       this.projectData.done = 2
-      request.put("project/end", this.projectData).then(res => {
+      http.put("project/end", this.projectData).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            type: "success",
+            message: "操作成功！"
+          })
+          this.getProj()
+          this.load()
+        }
+      })
+    },
+    undo(){
+      this.projectData.done = 0
+      http.put("project/undo", this.projectData).then(res => {
         if (res.code === '0') {
           this.$message({
             type: "success",
@@ -246,9 +263,11 @@ export default {
           if (this.form.emer === '不重要')
             this.form.emer = 3
           this.form.pid = this.projectId
+          this.form.uid = this.uid
           this.form.coop = 1
-          request.post("/task/addIndp", this.form).then(res => {
-            if (res.code === '0') {
+          http.post("/task/addIndp", this.form).then(res => {
+            console.log(252, res)
+            if (res.data.code === '0') {
               this.$message({
                 type: "success",
                 message: "添加成功！"
@@ -258,7 +277,7 @@ export default {
             } else {
               this.$message({
                 type: "error",
-                message: res.msg
+                message: res.data.msg
               })
             }
           })
@@ -269,9 +288,10 @@ export default {
       })
     },
     load() {
-      request.get("/task/loadInProj",
+      http.get("/task/loadInProj",
         { params: { pageNum: this.currentPage, pageSize: 9, pid: this.projectId } }).then(res => {
-          this.tableData = res.data.records;
+          this.tableData = res.data.data.records;
+          console.log(277, this.tableData)
           this.tableData.filter((item) => {
             if (item.done === 0)
               item.done = "未完成"
@@ -289,7 +309,7 @@ export default {
               item.emer = "普通"
             if (item.emer === 3)
               item.emer = "不重要"
-            request.get("user/byid", { params: { uid: item.uid } }).then(res => {
+            http.get("user/byid", { params: { uid: item.uid } }).then(res => {
               item.uid = res.data.name + " (uid: " + item.uid + ")";
             })
           })
@@ -305,7 +325,7 @@ export default {
 }
 .left {
   float: left;
-  width: 368px;
+  width: 406px;
   height: 600px;
   background-color: #ddd;
 }
@@ -319,11 +339,10 @@ export default {
 
 .detailInfo {
   width: 90%;
-  height: 540px;
+  height: 570px;
   background-color: white;
   border-radius: 20px;
   margin: 20px;
-  padding-top: 30px;
   padding-left: 10px;
 }
 
@@ -337,6 +356,18 @@ export default {
 .link {
   color: limegreen;
   text-decoration: underline;
+}
+
+.label {
+    font-size: 18px;
+    color: #b70031;
+}
+
+.value {
+    font-size: 16px;
+    color: #888;
+    width: 300px;
+    display: inline-block;
 }
 
 .link:hover {

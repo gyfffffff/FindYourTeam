@@ -16,6 +16,7 @@ public class Task {
     String title;
     String intro;
     String uid;
+    String xuehao;
     Date startdate;
     Date ddl;
     int ptid;

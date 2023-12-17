@@ -7,8 +7,8 @@
         <el-col :span="8">
           <el-card style="width: 80%; margin-left: 30px; min-height: 350px; color: #333; background-color: floralwhite">
             <div style="padding-bottom: 10px; border-bottom: 1px solid #ccc">在线用户</div>
-            <div style="padding: 10px 0" v-for="user in users" :key="user.name">
-              <span>{{ user.name }}</span>
+            <div style="padding: 10px 0" v-for="uid in uids" :key="uid.name">
+              <span>{{ uid.name }}</span>
               <i class="el-icon-chat-dot-round" style="margin-left: 10px; font-size: 16px"></i>
             </div>
           </el-card>
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import request from "@/utils/request";
+import http from "@/http";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 let socket;
@@ -45,10 +45,11 @@ export default {
   data() {
     return {
       circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      user: {},
+      uid: "",
+      name:"",
       groupKey: '',
       isCollapse: false,
-      users: [],
+      uids: [],
       text: "",
       groupData: [],
       messages: [],
@@ -56,23 +57,24 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(sessionStorage.getItem("user"));
+    this.uid = sessionStorage.getItem("uid");
+    this.name = sessionStorage.getItem("name");
     // this.check()
     this.getParams()
     this.init()
   },
   methods: {
     check(){
-      if(!this.user)
+      if(!this.uid)
         this.$router.push('/login')
     },
     getParams(){
       this.groupKey = this.$route.query.groupKey;
     },
     init(){
-      request.get("/group/bykey",{params:{key: this.groupKey}}).then(res => {
-        this.groupData = res.data
-        let name = this.user.name;
+      http.get("/group/bykey?key="+this.groupKey).then(res => {
+        this.groupData = res.data.data
+        let name = this.name;
         let _this = this;
         if (typeof (WebSocket) == "undefined") {
           console.log("您的浏览器不支持WebSocket");
@@ -93,11 +95,11 @@ export default {
           //  浏览器端收消息，获得从服务端发送过来的文本消息
           socket.onmessage = function (msg) {
             console.log("收到数据====" + msg.data)
-            let data = JSON.parse(msg.data)  // 对收到的json数据进行解析， 类似这样的： {"users": [{"name": "zhang"},{ "name": "admin"}]}
-            if (data.users) {  // 获取在线人员信息
-              _this.users = data.users  // 获取当前连接的所有用户信息，并且排除自身，自己不会出现在自己的聊天列表里
+            let data = JSON.parse(msg.data)  // 对收到的json数据进行解析， 类似这样的： {"uids": [{"name": "zhang"},{ "name": "admin"}]}
+            if (data.uids) {  // 获取在线人员信息
+              _this.uids = data.uids  // 获取当前连接的所有用户信息，并且排除自身，自己不会出现在自己的聊天列表里
             } else {
-              // 如果服务器端发送过来的json数据 不包含 users 这个key，那么发送过来的就是聊天文本json数据
+              // 如果服务器端发送过来的json数据 不包含 uids 这个key，那么发送过来的就是聊天文本json数据
               _this.messages.push(data)
               // 构建消息内容
               _this.createContent(data.from, null, data.text)
@@ -123,22 +125,22 @@ export default {
         } else {
           console.log("您的浏览器支持WebSocket");
           // 组装待发送的消息 json
-          let message = {from: this.user.name, text: this.text}
+          let message = {from: this.uid.name, text: this.text}
           socket.send(JSON.stringify(message));  // 将组装好的json发送给服务端，由服务端进行转发
-          this.messages.push({user: this.user.name, text: this.text})
+          this.messages.push({uid: this.uid.name, text: this.text})
           // 构建消息内容，本人消息
-          this.createContent(null, this.user.name, this.text)
+          this.createContent(null, this.uid.name, this.text)
           this.text = '';
         }
       }
     },
-    createContent(remoteUser, nowUser, text) {  // 这个方法是用来将 json的聊天消息数据转换成 html的。
+    createContent(remoteuid, nowuid, text) {  // 这个方法是用来将 json的聊天消息数据转换成 html的。
       let html
       // 当前用户消息
-      if (nowUser) { // nowUser 表示是否显示当前用户发送的聊天消息，绿色气泡
+      if (nowuid) { // nowuid 表示是否显示当前用户发送的聊天消息，绿色气泡
         html = "<div class=\"el-row\" style=\"padding: 5px 0\">\n" +
             "  <div class=\"el-col el-col-22\" style=\"text-align: right; padding-right: 10px\">\n" +
-            "    <div style='font-size: 4px'>" + nowUser + "</div>\n" +
+            "    <div style='font-size: 4px'>" + nowuid + "</div>\n" +
             "    <div class=\"tip left\">" + text + "</div>\n" +
             "  </div>\n" +
             "  <div class=\"el-col el-col-2\" style=\"margin-top: 15px\">\n" +
@@ -147,7 +149,7 @@ export default {
             "  </span>\n" +
             "  </div>\n" +
             "</div>";
-      } else if (remoteUser) {   // remoteUser表示远程用户聊天消息，蓝色的气泡
+      } else if (remoteuid) {   // remoteuid表示远程用户聊天消息，蓝色的气泡
         html = "<div class=\"el-row\" style=\"padding: 5px 0\">\n" +
             "  <div class=\"el-col el-col-2\" style=\"text-align: right; margin-top: 15px\">\n" +
             "  <span class=\"el-avatar el-avatar--circle\" style=\"height: 40px; width: 40px; line-height: 40px;\">\n" +
@@ -155,7 +157,7 @@ export default {
             "  </span>\n" +
             "  </div>\n" +
             "  <div class=\"el-col el-col-22\" style=\"text-align: left; padding-left: 10px\">\n" +
-            "    <div style='font-size: 4px'>" + remoteUser + "</div>\n" +
+            "    <div style='font-size: 4px'>" + remoteuid + "</div>\n" +
             "    <div class=\"tip right\">" + text + "</div>\n" +
             "  </div>\n" +
             "</div>";

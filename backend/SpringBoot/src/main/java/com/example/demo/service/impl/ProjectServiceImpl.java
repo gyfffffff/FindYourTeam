@@ -48,6 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+
     @Override
     public Page<Project> getList(Integer pageNum, Integer pageSize, String uid){
         //改：先由uid找到gid，再通过gid查project
@@ -63,11 +64,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String done(Project project){
-        UpdateWrapper<Task> taskUpdateWrapper = new UpdateWrapper<Task>().eq("pid",project.getPid()).set("done",1);
-        taskMapper.update(null,taskUpdateWrapper);
-        UpdateWrapper<Project> updateWrapper = new UpdateWrapper<Project>().eq("pid",project.getPid()).set("done",1);
-        projectMapper.update(null,updateWrapper);
+    public String done(Project project) {
+        UpdateWrapper<Task> taskUpdateWrapper = new UpdateWrapper<Task>().eq("pid", project.getPid()).set("done", 1);
+        taskMapper.update(null, taskUpdateWrapper);
+        UpdateWrapper<Project> updateWrapper = new UpdateWrapper<Project>().eq("pid", project.getPid()).set("done", 1);
+        projectMapper.update(null, updateWrapper);
         return "success";
     }
 
@@ -76,6 +77,15 @@ public class ProjectServiceImpl implements ProjectService {
         UpdateWrapper<Task> taskUpdateWrapper = new UpdateWrapper<Task>().eq("pid",project.getPid()).set("done",3);
         taskMapper.update(null,taskUpdateWrapper);
         UpdateWrapper<Project> updateWrapper = new UpdateWrapper<Project>().eq("pid",project.getPid()).set("done",2);
+        projectMapper.update(null,updateWrapper);
+        return "success";
+    }
+
+    @Override
+    public String undo(Project project){
+        UpdateWrapper<Task> taskUpdateWrapper = new UpdateWrapper<Task>().eq("pid",project.getPid()).set("done",0);
+        taskMapper.update(null,taskUpdateWrapper);
+        UpdateWrapper<Project> updateWrapper = new UpdateWrapper<Project>().eq("pid",project.getPid()).set("done",0);
         projectMapper.update(null,updateWrapper);
         return "success";
     }

@@ -69,6 +69,7 @@ export default {
                 title: '',
                 intro: '',
                 uid: '',
+                xuehao: '',
                 gid: '',
                 startdate: '',
                 ddl: '',
@@ -233,6 +234,7 @@ export default {
     },
     created() {
         this.uid = sessionStorage.getItem("uid");
+        this.xuehao = sessionStorage.getItem("xuehao");
         this.load()
     },
 };

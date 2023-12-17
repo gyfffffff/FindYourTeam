@@ -18,6 +18,8 @@ public interface ProjectService {
 
     public String end(Project project);
 
+    public String undo(Project project);
+
     public String savemainpic_path(Integer pid, String path);
 
     public Page<Project> homeload(Integer pageNum, Integer pageSize);

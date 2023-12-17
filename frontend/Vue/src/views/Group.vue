@@ -42,11 +42,9 @@
       <!--      表格展示-->
       <div style="padding: 20px">
         <el-table class="list" :data="tableData" border stripe style="width: 100%">
-          <el-table-column prop="uid" label="用户学/工号" width="250">
+          <el-table-column prop="xuehao" label="用户学/工号" width="250">{{ this.xuehao }}
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="250">
-          </el-table-column>
-          <el-table-column prop="company" label="所属学院" width="250">
+          <el-table-column prop="name" label="姓名" width="250">{{ this.name }}
           </el-table-column>
           <el-table-column prop="resp" label="角色" sortable>
           </el-table-column>
@@ -80,6 +78,8 @@ export default {
   data() {
     return {
       uid: '',
+      name: '',
+      xuehao: '',
       groupKey: '',
       groupData: [],
       projectData: [],
@@ -100,6 +100,8 @@ export default {
   },
   created() {
     this.uid = sessionStorage.getItem("uid");
+    this.name = sessionStorage.getItem("name");
+    this.xuehao = sessionStorage.getItem("xuehao");
     // this.check();
     this.getParams();
     this.load();
@@ -172,7 +174,8 @@ export default {
           this.form.gid = this.groupData.gid
           this.form.groupName = this.groupData.groupName
           http.post("/group/add", this.form).then(res => {
-            if (res.code === '0') {
+            console.log(175, this.form)
+            if (res.data.code === '0') {
               this.$message({
                 type: "success",
                 message: "添加成功！"
@@ -180,10 +183,9 @@ export default {
               this.load()
               this.dialogVisible = false
             } else {
-
               this.$message({
                 type: "error",
-                message: res.msg,
+                message: res.data.msg,
               })
 
             }

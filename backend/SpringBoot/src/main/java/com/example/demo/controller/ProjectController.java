@@ -88,6 +88,11 @@ public class ProjectController {
         projectService.end(project);
         return Result.success();
     }
+    @PutMapping("/undo")
+    public Result<?> undo(@RequestBody Project project){
+        projectService.undo(project);
+        return Result.success();
+    }
 
     @GetMapping("/homeload")
     public Result<?> homeload(@RequestParam(defaultValue = "1") Integer pageNum,

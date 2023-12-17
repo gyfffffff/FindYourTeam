@@ -84,6 +84,7 @@ export default {
                 this.user.uid = res.data.msg
                 sessionStorage.setItem("xuehao", this.user.xuehao)
                 sessionStorage.setItem("uid", this.user.uid)
+                sessionStorage.setItem("name", this.user.name)
             } catch (error) {
                 console.error('Data fetching failed:', error);
             }

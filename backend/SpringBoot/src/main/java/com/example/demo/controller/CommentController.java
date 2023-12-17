@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/comment")
+@CrossOrigin
 public class CommentController {
     @Resource
     CommentMapper commentMapper;

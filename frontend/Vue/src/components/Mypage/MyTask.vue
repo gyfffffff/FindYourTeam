@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       tasks: [],
-      user: '',
+      uid: '',
       tableData: [],
       currentPage: 1,
       dialogVisible: false,
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     check() {
-      if (!this.user)
+      if (!this.uid)
         this.$router.push('/login')
     },
     filterDone(value, row) {
@@ -123,7 +123,7 @@ export default {
     },
     load() {
       http.get("/task/load",
-        { params: { pageNum: this.currentPage, pageSize: 9, uid: this.user.uid } }).then(res => {
+        { params: { pageNum: this.currentPage, pageSize: 9, uid: this.uid } }).then(res => {
           this.tableData = res.data.data.records;
           console.log(this.tableData)
           this.tableData.filter((item) => {
@@ -165,7 +165,7 @@ export default {
             this.form.emer = 2
           if (this.form.emer === '不重要')
             this.form.emer = 3
-          this.form.uid = this.user.uid
+          this.form.uid = this.uid
           http.post("/task/addIndp", this.form).then(res => {
             if (res.code === '0') {
               this.$message({
@@ -189,7 +189,7 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(sessionStorage.getItem("user"));
+    this.uid = sessionStorage.getItem("uid");
     // this.check()
     this.load()
   },

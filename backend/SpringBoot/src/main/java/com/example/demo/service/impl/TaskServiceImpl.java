@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public String add(Task task){
-        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUid,task.getUid()));
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getXuehao,task.getXuehao()));
         if(res==null){
             return "fail";
         }
