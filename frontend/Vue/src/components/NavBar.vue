@@ -55,21 +55,24 @@ export default {
     padding-top: 15px;
     padding-left: 70px;
     display: flex;
-    border-radius: 5px;
+    border-radius: 15px;
+    overflow: hidden;
 }
 .navButtons {
     width: 90%;
     height: 90px;
     background-color: #b70031;
     display: flex;
-    border-radius: 5px;
-
+    border-radius: 10px;
+    overflow: hidden
 }
 .avatar {
     width: 90px;
     height: 90px;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-left: 30px;
+    overflow: hidden;
+    cursor: pointer;
 }
 .divButton {
     width: 25%;

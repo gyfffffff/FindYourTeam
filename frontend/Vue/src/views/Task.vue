@@ -2,7 +2,7 @@
   <div>
     <Header/>
     <div style="height: 10px"></div>
-    <div style="float: left; height: 627px; width: 450px; margin-left: 10px; background-color: floralwhite">
+    <div style="float: left; height: 627px; width: 420px; margin-left: 10px; background-color: floralwhite">
       <div style="margin-left: 30px; margin-top: 40px; font-size: large">
         任务名称：{{taskData.title}}
         <br/>
@@ -50,7 +50,7 @@
       </div>
     </div>
     <!--    右边-->
-    <div style="float: right; height: 627px; width: 790px; margin-right: 10px; background-color: white">
+    <div style="float: right; height: 627px; width: 760px; margin-right: 10px; background-color: white">
       <div v-if="this.user.uid!==this.taskData.uid&&this.groupData.resp!==1" style="color: #606266; font-size: 30px; text-align: center; margin-top: 250px">您没有查看权限！</div>
       <div v-else>
         <el-upload

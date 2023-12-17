@@ -37,7 +37,7 @@
     </div>
     <!--  团队成员展示部分  -->
     <div style="height: 20px;"></div>
-    <div style="float: right; height: 600px; width: 70%; margin-right: 10px; background-color: white">
+    <div style="float: right; height: 600px; width: 68%; margin-right: 10px; background-color: white">
       <div style="padding-top: 10px; color: #606266; font-size: 23px; text-align: center">团队成员</div>
       <!--      表格展示-->
       <div style="padding: 20px">

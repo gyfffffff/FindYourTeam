@@ -160,6 +160,7 @@ export default {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .avatar {
@@ -167,6 +168,7 @@ export default {
     height: 150px;
     border-radius: 50%;
     margin-top: 80px;
+    
 }
 
 .detailInfo {

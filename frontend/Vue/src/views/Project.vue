@@ -325,7 +325,7 @@ export default {
 }
 .left {
   float: left;
-  width: 406px;
+  width: 402px;
   height: 600px;
   background-color: #ddd;
 }
