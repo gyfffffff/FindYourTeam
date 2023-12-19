@@ -1,7 +1,6 @@
-<div align="center">
-<h1 >
-  <br/>FindYourTeam
-</h1> 
+
+#  <center> FindYourTeam
+
 
 
 
