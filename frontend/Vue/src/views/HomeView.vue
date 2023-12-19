@@ -71,6 +71,13 @@ export default {
         async getuser() {
             try {
                 const code = await this.getCode();
+                if (code==null) {
+                    sessionStorage.setItem("xuehao", 'fake')
+                    sessionStorage.setItem("uid", 'fake')
+                    sessionStorage.setItem("name", 'fake')
+                    console.log("7878", sessionStorage.getItem("xuehao"))
+                    reutrn;
+                }
                 const { token, tokenType } = await this.getToken(code);
                 //console.log('Access Token:', token);
                 const { userId, userName } = await this.getUserInfo(token, tokenType);
@@ -110,7 +117,7 @@ export default {
         gotoComplist() {
             this.$router.push("/competition");
         },
-        gotoComp(){
+        gotoComp() {
             this.$router.push("/comdetail")
         },
         load() {

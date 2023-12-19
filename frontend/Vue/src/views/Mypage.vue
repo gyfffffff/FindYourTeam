@@ -39,7 +39,9 @@ export default {
     methods: {
         check() {
             this.xuehao = sessionStorage.getItem("xuehao");
-            if (!this.xuehao) this.$router.push("/login");
+            if (this.xuehao=='fake') {
+                alert("请先登录, 访问/login ")
+            }
         },
         avatarURL() {
             http.get("/user/getavatar?uid=" + JSON.parse(sessionStorage.getItem("user")).uid)
