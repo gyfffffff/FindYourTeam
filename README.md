@@ -1,7 +1,7 @@
-<div align="center">
-<h1 >
-  <br/>FindYourTeam
-</h1> 
+
+  
+  <center># FindYourTeam</center>
+
 
 
 ![](https://img.shields.io/badge/Mysql-blue) 
