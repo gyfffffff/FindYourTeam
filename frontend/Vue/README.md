@@ -1,19 +1,21 @@
 
 # FindyourTeam
 
+This project uses vue2 + elementUI for developing, and we use yarn as package management tool.
+
 ## Project setup
 ```
-npm install
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn run serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+yarn run build
 ```
 
 ### Customize configuration
