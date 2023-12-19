@@ -1,7 +1,6 @@
 
 # FindyourTeam
 
-# Project introduction
 This project uses vue2 + elementUI for developing, and we use yarn as package management tool.
 
 ## Project setup
