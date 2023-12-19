@@ -1,5 +1,7 @@
-
-#  <center> FindYourTeam
+<div align="center">
+<h1 >
+  <br/>FindYourTeam
+</h1>
 
 
 
@@ -8,6 +10,7 @@
 ![](https://img.shields.io/badge/Springboot-orange) 
 ![](https://img.shields.io/badge/vue-yel) 
 [![](https://img.shields.io/badge/elementui-2.15.13-red)](README.md)
+<div align='left'>
 
 参赛作品展示（视频较大，请等待10-20秒）：
 
