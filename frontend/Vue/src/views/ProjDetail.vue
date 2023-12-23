@@ -57,7 +57,8 @@
             <div class="section">
                 <div class="title-bar">演示视频</div>
                 <div class="content">
-                    <iframe src="//player.bilibili.com/player.html?aid=576959043&bvid=BV1Uz4y1F7N4&cid=1292195312&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+                    <iframe src="//player.bilibili.com/player.html?aid=576959043&bvid=BV1Uz4y1F7N4&cid=1292195312&p=1"
+                        scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
                 </div>
             </div>
 
@@ -65,7 +66,17 @@
             <div class="section">
                 <div class="title-bar">资源下载</div>
                 <div class="content">
-                    <a class="link" href="https://github.com/Bruce-Jay/Opensoda-Cli">请移步github</a>
+                    <!-- <a class="link" href="https://github.com/Bruce-Jay/Opensoda-Cli">请移步github</a> -->
+                    <div class="downloadblock">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+                            class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                            <path
+                                d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                            <path
+                                d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                        </svg>
+                        <span class="dlb-title"> title.pdf </span>
+                    </div>
                 </div>
             </div>
 
@@ -73,7 +84,7 @@
             <div class="section">
                 <div class="title-bar">队友招募</div>
                 <div class="join">
-                    {{ project.requirement}} </div>
+                    {{ project.requirement }} </div>
             </div>
             <a class="link" @click="apply">我要申请加入团队</a>
             <el-dialog title="申请问卷" :visible.sync="dialogVisible" width="45%">
@@ -299,7 +310,7 @@ img {
 
 
 .content {
-    padding: 10px;
+    padding: 10px 30px;
 }
 
 .join {
@@ -315,5 +326,26 @@ img {
     justify-content: center;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.downloadblock {
+    /* background-color: #2ca064; */
+    border-color: #b7003199;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 23%;
+    height: 100px;
+    padding: 8px;
+}
+
+.dlb-title{
+    font-size: 20px;
+    color: #000;
+    margin-left: 10px;
+    flex-direction: column;
 }
 </style>
