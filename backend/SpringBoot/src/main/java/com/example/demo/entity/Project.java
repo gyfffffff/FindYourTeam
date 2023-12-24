@@ -21,6 +21,7 @@ public class Project {
     String tag;
     String pic;
     String requirement;
+    String status;
 
 
 }

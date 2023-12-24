@@ -25,4 +25,9 @@ public interface ProjectService {
     public Page<Project> homeload(Integer pageNum, Integer pageSize);
 
     public String apply(Apply apply);
+
+    public Project update(Project project);
+
+    public Page<Project> searchByLabel(String label);
+    public Page<Project> searchByTitle(String keyword);
 }

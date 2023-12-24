@@ -127,6 +127,16 @@ public class ProjectController {
         return matcher.matches();
     }
 
+    @PutMapping("/status")
+    public Result<?> status(Integer pid, String status){
+        Project project = projectService.getByID(pid);
+        project.setStatus(status);
+        projectService.update(project);
+        return Result.success();
+    }
+
+
+
 //    @GetMapping("/download")
 //    public Result<?> download(Integer resc_id) throws Exception {
 //        Resource resource = projectService.download(resc_id);

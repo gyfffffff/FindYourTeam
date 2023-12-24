@@ -109,4 +109,31 @@ public class ProjectServiceImpl implements ProjectService {
         return "success";
     }
 
+    @Override
+    public Project update(Project project){
+        projectMapper.updateById(project);
+        return project;
+    }
+
+    @Override
+    public Page<Project> searchByLabel(String label) {
+        LambdaQueryWrapper<Project> wrapper;
+        if (label.startsWith("s")) {
+            String status = label;  // 获取除去前缀 "s" 后的部分
+            wrapper = Wrappers.<Project>lambdaQuery().eq(Project::getStatus, status);
+        } else {
+            wrapper = Wrappers.<Project>lambdaQuery().eq(Project::getDone, label);
+        }
+
+        Page<Project> projectPage = projectMapper.selectPage(new Page<>(1, 9), wrapper);
+        return projectPage;
+    }
+
+    @Override
+    public Page<Project> searchByTitle(String keyword) {
+        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().like(Project::getTitle, keyword);
+        Page<Project> projectPage = projectMapper.selectPage(new Page<>(1, 9), wrapper);
+        return projectPage;
+    }
+
 }
