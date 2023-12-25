@@ -45,7 +45,7 @@ export default {
                 return { token: response.data.access_token, tokenType: response.data.token_type };
             } catch (error) {
                 console.error('Error fetching token:', error);
-                alert('Error fetching token:', error);
+                // alert('Error fetching token:', error);
                 // throw error;
             }
         },
@@ -71,16 +71,16 @@ export default {
         // Usage in your component method
         async getuser() {
             try {
-                if(sessionStorage.getItem("uid") !== "fake" && sessionStorage.getItem("uid")) return;
+                if(sessionStorage.getItem("uid")) return;  // 如果application里本来就有东西，返回
                 else {
                     const code = await this.getCode();
-                    if (code===null) {
-                        sessionStorage.setItem("xuehao", 'fake')
-                        sessionStorage.setItem("uid", 'fake')
-                        sessionStorage.setItem("name", 'fake')
-                        console.log("7878", sessionStorage.getItem("xuehao"))
-                        return;
-                    }
+                    // if (code===null) {
+                    //     sessionStorage.setItem("xuehao", 'fake')
+                    //     sessionStorage.setItem("uid", 'fake')
+                    //     sessionStorage.setItem("name", 'fake')
+                    //     console.log("7878", sessionStorage.getItem("xuehao"))
+                    //     return;
+                    // }
                     const { token, tokenType } = await this.getToken(code);
                     //console.log('Access Token:', token);
                     const { userId, userName } = await this.getUserInfo(token, tokenType);
@@ -97,7 +97,7 @@ export default {
                 }
             } catch (error) {
                 console.error('Data fetching failed:', error);
-                alert('Data fetching failed:', error);
+                // alert('Data fetching failed:', error);
             }
         },
         check() {
