@@ -1,6 +1,7 @@
 <template>
     <div id="app">
     <div class="article-container">
+        <div class="article-head"></div>
         <!-- <h1 class="article-title">{{ competition.title }}</h1> -->
         <h1 class="article-title">关于组织参加第四届“卿云杯”全国通识课程论文大赛活动的通知</h1>
         
@@ -40,8 +41,12 @@ export default {
 
 }
 
+.article-head {
+    height: 40px;
+    background-color: #fff;
+}
+
 .article-title {
-    margin-top: 40px;
     font-size: 30px;
     margin-bottom: 10px;
     color: #b70031; 

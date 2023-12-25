@@ -3,7 +3,7 @@
         <div class="top-panel">
             <!-- 左侧 -->
             <div class="left-panel">
-                <h2 style="text-align: center;margin-bottom:25px;">项目基本信息</h2>
+                <h2 style="text-align: left;margin-left: 30px; margin-bottom:15px; margin-top: 10px">项目基本信息</h2>
                 <div class="details">
                     <!-- 后端传回数据 -->
                     <div class="item">
@@ -35,20 +35,23 @@
 
             <!-- 右侧 -->
             <div class="right-panel">
-                <div class="container">
-                    <img :src="project.pic" alt="Project Image" class="centered-image" />
-                </div>
+                <div class="right-panel-bg">
+                    <div class="container">
+                        <img :src="project.pic" alt="Project Image" class="centered-image" />
+                    </div>
 
-                <p style="margin-top: 10px; font-weight: bold; text-align: center; font-size: 30px;">
-                    {{ project.title }}</p>
-
-                <div class="avatars">
-                    <p style="margin-left: 60px;">团队成员</p>
-                    <img src="../assets/avatar.png" alt="team member" class="avatar" />
-                    <img src="../assets/avatar.png" alt="team member" class="avatar" />
-                    <img src="../assets/avatar.png" alt="team member" class="avatar" />
+                    <p style="margin-top: 10px; font-weight: bold; text-align: center; font-size: 30px;">
+                        {{ project.title }}</p>
+                    <div class="divideLine"></div>
+                    <div class="avatars">
+                        <p >团队成员</p>
+                        <img src="../assets/avatar.png" alt="team member" class="avatar" />
+                        <img src="../assets/avatar.png" alt="team member" class="avatar" />
+                        <img src="../assets/avatar.png" alt="team member" class="avatar" />
+                    </div>
+                    <el-tag type="success" effect="dark" class="cardTag">{{ project.tag }}</el-tag>
                 </div>
-                <el-tag type="success" effect="dark" class="cardTag">{{ project.tag }}</el-tag>
+                
             </div>
 
         </div>
@@ -216,6 +219,7 @@ export default {
     width: 420px;
     height: 720px;
     padding: 10px;
+    padding-bottom: 0;
     margin-left: 20px;
     float: left;
 }
@@ -230,15 +234,21 @@ export default {
 .right-panel {
     width: 790px;
     height: 720px;
-    padding: 20px;
+    padding: 15px;
+    padding-bottom: 0;
+}
 
+.right-panel-bg {
+    height: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0 60px;
 }
 
 .container {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    height: 500px;
+    margin: 0 auto;
+    width: 600px;
+    height: 400px;
 }
 
 .centered-image {
@@ -266,9 +276,14 @@ img {
     height: auto;
 }
 
+.divideLine {
+    height: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
 .avatars {
     font-size: 30px;
-    margin-top: 20px;
     display: flex;
 }
 
@@ -283,7 +298,6 @@ img {
 
 .cardTag {
     margin-top: 20px;
-    margin-left: 60px;
     border-radius: 40px;
     background-color: #008672 !important;
 }
@@ -315,7 +329,6 @@ img {
 
 .join {
     padding: 10px;
-    border-radius: 10px;
     background-color: #fff;
     height: auto;
 }
