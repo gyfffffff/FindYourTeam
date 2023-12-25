@@ -45,7 +45,8 @@ export default {
                 return { token: response.data.access_token, tokenType: response.data.token_type };
             } catch (error) {
                 console.error('Error fetching token:', error);
-                throw error;
+                alert('Error fetching token:', error);
+                // throw error;
             }
         },
 
@@ -70,30 +71,33 @@ export default {
         // Usage in your component method
         async getuser() {
             try {
-                const code = await this.getCode();
-                if (code==null) {
-                    sessionStorage.setItem("xuehao", 'fake')
-                    sessionStorage.setItem("uid", 'fake')
-                    sessionStorage.setItem("name", 'fake')
-                    console.log("7878", sessionStorage.getItem("xuehao"))
-                    reutrn;
+                if(sessionStorage.getItem("uid") !== "fake" && sessionStorage.getItem("uid")) return;
+                else {
+                    const code = await this.getCode();
+                    if (code===null) {
+                        sessionStorage.setItem("xuehao", 'fake')
+                        sessionStorage.setItem("uid", 'fake')
+                        sessionStorage.setItem("name", 'fake')
+                        console.log("7878", sessionStorage.getItem("xuehao"))
+                        return;
+                    }
+                    const { token, tokenType } = await this.getToken(code);
+                    //console.log('Access Token:', token);
+                    const { userId, userName } = await this.getUserInfo(token, tokenType);
+                    //console.log('User ID:', userId);
+                    this.user.xuehao = userId;
+                    this.user.name = userName;
+                    this.user.avatar = "https://i.imgs.ovh/2023/12/15/6wIg0.png";
+                    console.log("user", this.user);
+                    const res = await http.post("user/register", this.user)
+                    this.user.uid = res.data.msg
+                    sessionStorage.setItem("xuehao", this.user.xuehao)
+                    sessionStorage.setItem("uid", this.user.uid)
+                    sessionStorage.setItem("name", this.user.name)
                 }
-                const { token, tokenType } = await this.getToken(code);
-                //console.log('Access Token:', token);
-                const { userId, userName } = await this.getUserInfo(token, tokenType);
-                //console.log('User ID:', userId);
-                this.user.xuehao = userId;
-                this.user.name = userName;
-                this.user.avatar = "https://i.imgs.ovh/2023/12/15/6wIg0.png";
-                console.log("user", this.user);
-                const res = await http.post("user/register", this.user)
-                console.log(83, res)
-                this.user.uid = res.data.msg
-                sessionStorage.setItem("xuehao", this.user.xuehao)
-                sessionStorage.setItem("uid", this.user.uid)
-                sessionStorage.setItem("name", this.user.name)
             } catch (error) {
                 console.error('Data fetching failed:', error);
+                alert('Data fetching failed:', error);
             }
         },
         check() {
@@ -110,15 +114,18 @@ export default {
                     projectId: val,
                 },
             });
+            document.documentElement.scrollTop = 0;
         },
         gotoProjlist() {
             this.$router.push("/projlist");
         },
         gotoComplist() {
             this.$router.push("/competition");
+            // window.location.href = "http://localhost:8080/competition"
         },
         gotoComp() {
             this.$router.push("/comdetail")
+            document.documentElement.scrollTop = 0;
         },
         load() {
             http.get("/project/homeload", {
@@ -176,7 +183,10 @@ export default {
         <div class="competitions">
             <div class="noticeInfo" v-for="item in compArr" :key="item.tag" @click="gotoComp">
                 <!-- 这里可以多加一些条件渲染 -->
-                <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
+                <div class="noticeTagBox">
+                    <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
+                </div>
+                
                 <p class="noticeTitle">{{ item.title }}</p>
                 <p class="noticeTime">{{ item.date }}</p>
             </div>
@@ -205,7 +215,7 @@ export default {
 
 .titleButton {
     width: 150px;
-    height: 60px;
+    height: 58px;  /* 58px 比大盒子略小一些 */
     background-color: #b70031;
     color: white;
     font-size: 24px;
@@ -273,11 +283,16 @@ export default {
     width: 100%;
     height: 60px;
     background-color: rgba(151, 163, 234, 0.15);
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     display: flex;
     line-height: 40px;
     align-items: center;
     cursor: pointer;
+}
+
+.noticeTagBox {
+    width: 160px;
+    height: 40px;
 }
 
 .noticeTag {
@@ -287,7 +302,8 @@ export default {
     background-color: purple !important;
     line-height: 40px;
     font-size: 20px;
-    margin: 0 20px;
+    margin-left: 20px;
+    
 }
 
 .noticeTitle {

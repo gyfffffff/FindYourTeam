@@ -29,7 +29,8 @@ export default {
                 });
         },
         gotoComp(){
-            this.$router.push("/comdetail")
+            this.$router.push("/comdetail");
+            document.documentElement.scrollTop = 0;
         }
     }
 
@@ -42,7 +43,9 @@ export default {
         <div class="competitions">
             <div class="noticeInfo" v-for="item in compArr" :key="item" @click="gotoComp">
                 <!-- 这里可以多加一些条件渲染 -->
-                <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
+                <div class="noticeTagBox">
+                    <el-tag type="success" effect="dark" class="noticeTag">{{ item.tag }}</el-tag>
+                </div>
                 <p class="noticeTitle">{{ item.title }}</p>
                 <p class="noticeTime">{{ item.date }}</p>
             </div>
@@ -63,11 +66,16 @@ export default {
     padding: 20px 40px;
 }
 
+.noticeTagBox {
+    width: 160px;
+    height: 40px;
+}
+
 .noticeInfo {
     width: 100%;
     height: 60px;
     background-color: rgba(151, 163, 234, 0.15);
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     display: flex;
     line-height: 40px;
     align-items: center;

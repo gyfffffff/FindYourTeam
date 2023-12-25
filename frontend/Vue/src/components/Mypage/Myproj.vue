@@ -27,26 +27,26 @@
                     </el-upload>
                 </el-form-item> -->
             </el-form>
-            <span slot="footer" class="dialog-footer">
+            <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="save('form')">确 定</el-button>
-            </span>
+                <el-button type="primary" @click="save('form')" class="confirmButton">确 定</el-button>
+            </div>
         </el-dialog>
-        <div style="padding: 20px; padding-top: 45px;">
+        <div style="width: 100%; padding: 20px; padding-top: 70px;">
             <el-table :data="tableData" border stripe style="width: 100%" @row-click="openDetails">
-                <el-table-column prop="title" label="名称" width="200">
+                <el-table-column prop="title" label="名称">
                 </el-table-column>
-                <el-table-column prop="startdate" label="创建时间" sortable width="200">
+                <el-table-column prop="startdate" label="创建时间" sortable>
                 </el-table-column>
-                <el-table-column prop="ddl" label="截止时间" sortable width="200">
+                <el-table-column prop="ddl" label="截止时间" sortable>
                 </el-table-column>
-                <el-table-column prop="done" label="状态" width="150"
+                <el-table-column prop="done" label="状态"
                     :filters="[{ text: '已完成', value: '已完成' }, { text: '未完成', value: '未完成' }, { text: '已终止', value: '已终止' }]"
                     :filter-method="filterTag">
                 </el-table-column>
             </el-table>
             <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="prev, pager, next"
-                :total="100" style="margin-top: 20px; margin-left: 310px; float: left">
+                :total="100" style="margin-top: 20px; margin-left: 220px; float: left">
             </el-pagination>
         </div>
     </div>
@@ -229,6 +229,22 @@ export default {
                     if (item.done === 2)
                         item.done = "已终止"
                 })
+                function formatDate(dateString) {
+                    const date = new Date(dateString);
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, "0");
+                    const day = String(date.getDate()).padStart(2, "0");
+                    const hour = String(date.getHours()).padStart(2, "0");
+                    const minute = String(date.getMinutes()).padStart(2, "0");
+                    const second = String(date.getSeconds()).padStart(2, "0");
+                    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+                }
+                // 更改 startdate 和 ddl 的格式
+                this.tableData.forEach((item) => {
+                    item.startdate = formatDate(item.startdate)
+                    item.ddl = formatDate(item.ddl)
+                })
+                
             })
         },
     },
@@ -243,9 +259,7 @@ export default {
 <style scoped>
 .main {
     position: relative;
-    width: 875px;
 }
-
 .cardTitle {
     margin: 5px 0;
     font-size: 20px;
@@ -264,15 +278,33 @@ export default {
     position: absolute;
     width: 150px;
     height: 40px;
-    background-color: #888 !important;
+    background-color: #b70031 !important;
     line-height: 40px !important;
     font-size: 20px;
     font-weight: 600;
     top: 0px;
-    right: 0px;
+    right: 20px;
     padding: 0 10px;
     z-index: 100;
 
+}
+
+.newProjBtn:hover {
+    border: 1px solid #b70031 !important;
+}
+
+.dialog-footer {
+    height: 40px;
+    align-items: right;
+}
+
+.confirmButton {
+    height: 40px;
+    margin-left: 20px !important;
+    padding: 0 20px;
+    line-height: 40px !important;
+    border: 1px solid #b70031 !important;
+    border-radius: 5px !important;
 }
 
 .cardView {

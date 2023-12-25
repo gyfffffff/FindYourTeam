@@ -4,7 +4,7 @@ import { ref } from "vue";
 import Myproj from "@/components/Mypage/Myproj.vue";
 import MyTeam from "@/components/Mypage/MyTeam.vue";
 import MyTask from "@/components/Mypage/MyTask.vue";
-import http from "@/http";  // 引入新创建的http实例
+import http from "@/http"; // 引入新创建的http实例
 
 export default {
     name: "Mypage",
@@ -24,34 +24,34 @@ export default {
                 { label: "我的任务", checked: false, name: "button3" },
             ]),
             activeButton: "button1",
-            avatar: '',
-            avatar_alt: require('../assets/avatar.png'),
+            avatar: "",
+            avatar_alt: require("../assets/avatar.png"),
         };
     },
     created() {
-        console.log(1212)
         this.check();
-        console.log(3232)
         this.fetchData();
-        console.log(3434)
         this.fetchAvatar();
     },
     methods: {
         check() {
             this.xuehao = sessionStorage.getItem("xuehao");
-            if (this.xuehao=='fake') {
-                alert("请先登录, 访问/login ")
+            if (this.xuehao == "fake") {
+                alert("请先登录, 访问/login ");
             }
         },
         avatarURL() {
-            http.get("/user/getavatar?uid=" + JSON.parse(sessionStorage.getItem("user")).uid)
-                .then(res => {
-                    return res.data.data
+            http.get(
+                "/user/getavatar?uid=" +
+                    JSON.parse(sessionStorage.getItem("user")).uid
+            )
+                .then((res) => {
+                    return res.data.data;
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
-                    return this.avatar_alt
-                })
+                    return this.avatar_alt;
+                });
         },
         selectButton(val) {
             this.activeButton = val;
@@ -61,68 +61,98 @@ export default {
         },
         fetchData() {
             const uid = sessionStorage.getItem("xuehao");
-            http.get('/user/byxuehao?xuehao=' + uid)
-                .then(res => {
-                    console.log(54, res)
+            http.get("/user/byxuehao?xuehao=" + uid)
+                .then((res) => {
+                    console.log(54, res);
                     this.infoArr = [
                         { label: "姓名", value: res.data.data.name },
-                        { label: "学号", value: res.data.data.xuehao},
+                        { label: "学号", value: res.data.data.xuehao },
                     ];
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
-                })
+                });
         },
         fetchAvatar() {
-            const url = '/user/getavatar?xuehao='+sessionStorage.getItem("xuehao")
-            
+            const url =
+                "/user/getavatar?xuehao=" + sessionStorage.getItem("xuehao");
+
             http.get(url)
-                .then(res => {
-                    console.log('70', res.data.data)
-                    this.avatar = res.data.data
+                .then((res) => {
+                    console.log("70", res.data.data);
+                    this.avatar = res.data.data;
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
-                })
-        }
+                });
+        },
     },
 };
 </script>
 
 <template>
-    <div class="main">
-        <el-button type="primary" class="returnButton" @click="navHome()">返回首页</el-button>
-        <!-- 个人信息部分 -->
-        <div class="info">
-            <div class="avatarBox">
-                <img :src="this.avatar" alt="avatar_alt" class="avatar" />
-            </div>
-            <div class="detailInfo">
-                <p v-for="(item, index) in infoArr" :key="item.uid || index" class="infoItem">
-                    <span class="label">{{ item.label }}：</span>
-                    <span class="value">{{ item.value }}</span>
-                </p>
-            </div>
-        </div>
+    <div>
+        <el-button type="primary" class="returnButton" @click="navHome()"
+            >返回首页</el-button
+        >
+        <el-row>
+            <el-col :span="8">
+                <!-- 个人信息部分 -->
+                <div class="info">
+                    <div class="avatarBox">
+                        <img
+                            :src="this.avatar"
+                            alt="avatar_alt"
+                            class="avatar"
+                        />
+                    </div>
+                    <div class="detailInfo">
+                        <p
+                            v-for="(item, index) in infoArr"
+                            :key="item.uid || index"
+                            class="infoItem"
+                        >
+                            <span class="label">{{ item.label }}：</span>
+                            <span class="value">{{ item.value }}</span>
+                        </p>
+                    </div>
+                </div>
+            </el-col>
+            <el-col :span="16">
+                <div class="myView">
+                    <!-- 按钮部分，三个按钮查看不同的信息 -->
+                    <div class="buttons">
+                        <el-row gutter="100">
+                            <el-col
+                                :span="8"
+                                v-for="item in buttonArr"
+                                :key="item"
+                            >
+                                <el-button
+                                    type="primary"
+                                    :class="{
+                                        buttonStyle: true,
+                                        'el-button--primary': true,
+                                        activeButton:
+                                            item.name === activeButton,
+                                    }"
+                                    :dark="isDark"
+                                    @click="selectButton(item.name)"
+                                    >{{ item.label }}</el-button
+                                >
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <!-- 信息展示部分 -->
+                    <div class="infoView">
+                        <Myproj v-if="activeButton == 'button1'"></Myproj>
+                        <MyTeam v-if="activeButton == 'button2'"></MyTeam>
+                        <MyTask v-if="activeButton == 'button3'"></MyTask>
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
 
-        <div class="myView">
-            <!-- 按钮部分，三个按钮查看不同的信息 -->
-            <div class="buttons">
-                <el-row gutter=100>
-                    <el-col :span="8" v-for="item in buttonArr" :key="item">
-                        <el-button type="primary"
-                            :class="{ 'buttonStyle': true, 'el-button--primary': true, 'activeButton': item.name === activeButton }"
-                            :dark="isDark" @click="selectButton(item.name)">{{ item.label }}</el-button>
-                    </el-col>
-                </el-row>
-            </div>
-            <!-- 信息展示部分 -->
-            <div class="infoView">
-                <Myproj v-if="activeButton == 'button1'"></Myproj>
-                <MyTeam v-if="activeButton == 'button2'"></MyTeam>
-                <MyTask v-if="activeButton == 'button3'"></MyTask>
-            </div>
-        </div>
         <Footer></Footer>
     </div>
 </template>
@@ -150,10 +180,10 @@ export default {
 }
 
 .info {
-    width: 390px;
+    width: 100%;
     height: 100%;
     padding: 20px;
-    border-right: 1px solid #888;
+    
 }
 
 .avatarBox {
@@ -170,7 +200,6 @@ export default {
     height: 150px;
     border-radius: 50%;
     margin-top: 80px;
-    
 }
 
 .detailInfo {
@@ -201,9 +230,10 @@ export default {
 }
 
 .myView {
-    width: 875.5px;
+    width: 100%;
     height: 100%;
     padding: 20px;
+    border-left: 1px solid #888;
 }
 
 .buttons {
