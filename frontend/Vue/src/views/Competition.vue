@@ -39,7 +39,7 @@ export default {
 
 <template>
     <div class="mainCompetition">
-        <NavBar />
+        <NavBar></NavBar>
         <div class="competitions">
             <div class="noticeInfo" v-for="item in compArr" :key="item" @click="gotoComp">
                 <!-- 这里可以多加一些条件渲染 -->

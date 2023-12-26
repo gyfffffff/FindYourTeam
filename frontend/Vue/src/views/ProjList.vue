@@ -55,8 +55,6 @@ export default {
 <template>
   <div>
     <NavBar></NavBar>
-    <hr />
-    <div class="title">所有项目</div>
     <!-- 项目的主体区域 -->
     <div class="main">
       <!-- 搜索框，使用 form 实现，把搜索结果传回给后端 -->
@@ -72,7 +70,7 @@ export default {
         </el-form>
       </div>
       <!-- 搜索结果，使用 el-col + el-card 实现 -->
-      <el-row style="margin-left: 40px;">
+      <el-row>
         <el-col :span="8" v-for="item in tableData" :key="item.pid">
           <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item.pid)">
             <img :src="item.pic" class="cardImage" />
@@ -94,7 +92,7 @@ export default {
 .title {
   width: 100%;
   height: 60px;
-  background-color: rgba(151, 163, 234, 0.15);
+  background-color: #f5ddb0;
   line-height: 60px;
   font-size: 24px;
   font-weight: 600;
@@ -133,20 +131,20 @@ export default {
 }
 
 .projectCard {
-  width: 90%;
-  height: 375px;
-  margin: 20px;
+  height: 360px;
   background-color: #fff;
+  margin: 20px 10px 0;
+  padding-bottom: 10px;
 }
 
 .cardImage {
   width: 100%;
-  height: 250px;
+  height: 200px;
   object-fit: contain;
 }
 
 .cardTitle {
-  margin: 5px 0;
+  margin: 10px 0;
   font-size: 20px;
   font-weight: 600;
   overflow: hidden;
@@ -164,7 +162,7 @@ export default {
 
 .cardTag {
   height: 30px;
-  margin-top: 3px;
+  margin-top: 20px;
   line-height: 30px;
   font-size: 12px;
   border-radius: 20px;

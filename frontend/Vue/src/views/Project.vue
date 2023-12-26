@@ -27,6 +27,12 @@
                             <!-- <br /> -->
                             <br />
                             <br />
+                            <p class="infoItem">
+                                <span class="label">项目标签：</span>
+                                <span class="value">
+                                    {{ tagLabel }}
+                                </span>
+                            </p>
                             <span class="label">状态：</span
                             ><span class="value">{{ projectData.done }}</span>
                             <!-- <br /> -->
@@ -55,11 +61,42 @@
                                     style="margin-left: 10px"
                                     >终止项目</el-button
                                 >
+                                <el-button
+                                    @click="changeTag"
+                                    size="medium"
+                                    type="success"
+                                    style="margin-left: 10px">
+                                    更改项目标签
+                                </el-button>
+                                <el-dialog
+                                    title="更改项目标签"
+                                    :visible.sync="changeTagVisible"
+                                    >
+                                    <!-- 添加标签区域 -->
+                                    <div>
+                                        <el-select v-model="value" placeholder="请选择标签" @change="selectATag">
+                                            <el-option
+                                                v-for="item in availableTags"
+                                                :key="item.label"
+                                                :label="item.label"
+                                                :value="item.value"
+                                            ></el-option>
+                                        </el-select>
+                                        
+                                    </div>
+                                    
+                                    <!-- 提示信息 -->
+                                    <div v-if="showMaxTagWarning">
+                                        <p style="color: red">已超过标签数量限制！</p>
+                                    </div>
+                                    <el-button type="primary" @click="confirmTag" class="confirmTag">确定</el-button>
+                                </el-dialog>
                                 <p class="undo">
                                     <a class="link" @click="undo"> 撤销操作 </a>
                                 </p>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </el-col>
@@ -251,6 +288,17 @@ export default {
             tableData: [],
             currentPage: 1,
             dialogVisible: false,
+            changeTagVisible: false,
+            availableTags: [{label: 'helper_wanted', value: 't1'}, 
+            {label: '国创', value: 't2'}, 
+            {label: '市创', value: 't3'}, 
+            {label: '校创', value: 't4'}, 
+            {label: '互联网 +', value: 't5'}, 
+            {label: '个人项目', value: 't6'}],
+            // selectedTags: [],
+            selectTag: '',
+            tagLabel: '',
+            showMaxTagWarning: false,
             form: {
                 title: "",
                 intro: "",
@@ -299,6 +347,30 @@ export default {
         this.load();
     },
     methods: {
+        selectATag(value) {
+            this.selectTag = value;
+            console.log('352', this.selectTag);
+            this.$forceUpdate();
+        },
+        confirmTag() {
+            http.get('/project/tag', {params:{pid: this.projectId, tag: this.selectTag}}).then(res => {
+                if (res.data.code === '0') {
+                    this.getProj();
+                    this.load();
+                    this.changeTagVisible = false;
+                    this.$message({
+                        type: 'success',
+                        message: '操作成功！'
+                    });
+                    
+                }
+            }).catch(error => {
+                this.$message({
+                    type: 'error',
+                    message: '操作失败！'
+                });
+            })
+        },
         check() {
             if (!this.uid) this.$router.push("/login");
         },
@@ -395,6 +467,9 @@ export default {
                 }
             });
         },
+        changeTag() {
+            this.changeTagVisible = true;
+        },
         filterDone(value, row) {
             return row.done === value;
         },
@@ -428,7 +503,6 @@ export default {
                     this.form.uid = this.uid;
                     this.form.coop = 1;
                     http.post("/task/addIndp", this.form).then((res) => {
-                        console.log(252, res);
                         if (res.data.code === "0") {
                             this.$message({
                                 type: "success",
@@ -490,6 +564,8 @@ export default {
                     item.ddl = formatDate(item.ddl);
                 });
                 console.log(277, this.tableData);
+                this.tagLabel = this.availableTags.filter(item => item.value === this.projectData.tag)[0].label;
+                
             });
         },
     },
@@ -523,6 +599,10 @@ export default {
     /* border-right: 1px solid #888; */
 }
 
+.infoItem {
+    margin-bottom: 20px;
+}
+
 .undo {
     margin-top: 20px;
 }
@@ -546,5 +626,25 @@ export default {
 
 .link:hover {
     cursor: pointer;
+}
+
+.selectedLabel {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.addTag {
+    margin-left: 30px !important;
+}
+
+
+.confirmTag {
+    height: 40px;
+    margin-top: 20px !important;
+    padding: 0 20px !important;
+    line-height: 40px !important;
+    border: 1px solid #b70031 !important;
+    border-radius: 5px !important;
 }
 </style>

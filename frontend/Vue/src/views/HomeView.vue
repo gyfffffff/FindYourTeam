@@ -151,15 +151,13 @@ export default {
     <div class="homeMain">
         <!-- 导航栏， '首页','项目看板','数字素养','赛事天地' 区域-->
         <NavBar></NavBar>
-        <hr />
         <!-- 项目看板区域 -->
         <div class="title">
             <p>热门项目</p>
             <el-button class="titleButton" @click="gotoProjlist">查看更多</el-button>
         </div>
-        <hr />
         <div class="hotProjects">
-            <el-row style="margin-left: 40px;">
+            <el-row style="margin-left: 70px;">
                 <el-col :span="8" v-for="item in tableData" :key="item.pid">
                     <el-card shadow="hover" class="projectCard" @click.native="gotoproj(item.pid)">
                         <img :src="item.pic" class="cardImage" />
@@ -174,7 +172,6 @@ export default {
                 </el-col>
             </el-row>
         </div>
-        <hr />
         <!-- 赛事天地区域 -->
         <div class="title">
             <p>近期赛事</p>
@@ -202,13 +199,15 @@ export default {
 
 .title {
     width: 100%;
-    height: 60px;
-    background-color: rgba(151, 163, 234, 0.15);
+    height: 63px;
+    /* background-color: rgba(151, 163, 234, 0.15); */
+    background-color: #fff;
     line-height: 60px;
     font-size: 24px;
     font-weight: 600;
     padding-left: 70px;
     padding-right: 30px;
+    padding-top: 3px;
     display: flex;
     justify-content: space-between;
 }
@@ -222,7 +221,7 @@ export default {
     line-height: 40px;
     align-items: center;
     text-align: center;
-    border: 0;
+    border: 2px solid #b70031 !important;
 }
 
 .titleButton:hover {
@@ -234,13 +233,13 @@ export default {
 .hotProjects {
     width: 100%;
     height: 500px;
-    background-color: white;
+    background-color: #e7e7e7;
 }
 
 .projectCard {
-    width: 90%;
     height: 400px;
     margin-top: 30px;
+    margin-right: 30px;
     background-color: #fff;
 }
 
@@ -275,8 +274,9 @@ export default {
 .competitions {
     width: 100%;
     height: 500px;
-    background-color: white;
-    padding: 20px 40px;
+    background-color: #e7e7e7;
+    padding: 20px 30px;
+    padding-left: 70px;
 }
 
 .noticeInfo {

@@ -28,6 +28,8 @@ public interface ProjectService {
 
     public Project update(Project project);
 
+    public String tag(Integer pid, String tag);
+
     public Page<Project> searchByLabel(String label);
     public Page<Project> searchByTitle(String keyword);
 }

@@ -37,8 +37,6 @@ export default {
 <template>
     <div>
         <NavBar></NavBar>
-        <hr />
-        <div class="title">数字素养</div>
         <!-- 数字素养的主体区域 -->
         <div class="main">
             <!-- 搜索框，使用 form 实现，把搜索结果传回给后端 -->
@@ -86,7 +84,7 @@ export default {
 .title {
     width: 100%;
     height: 60px;
-    background-color: rgba(151, 163, 234, 0.15);
+    background-color: #f5ddb0;
     line-height: 60px;
     font-size: 24px;
     font-weight: 600;
@@ -120,12 +118,11 @@ export default {
     border: 0;
 }
 .projectCard {
-    width: 95%;
     height: 320px;
-    margin-top: 30px;
-    margin-left: 20px;
+    margin: 30px 10px 0;
     background-color: #fff;
 }
+
 .cardImage {
     width: 100%;
     height: 160px;
@@ -158,6 +155,7 @@ export default {
 .cardBottom {
     height: 30px;
     display: flex;
+    margin-top: 10px;
 }
 .cardTime {
     height: 30px;

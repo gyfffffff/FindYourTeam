@@ -135,6 +135,20 @@ public class ProjectController {
         return Result.success();
     }
 
+    @GetMapping("/tag")
+    public Result<?> tag(@RequestParam String pid, @RequestParam String tag) {
+        System.out.println(pid);
+        System.out.println(tag);
+//        Project project = projectService.getByID(pid);
+//        project.setTag(tag);
+//        projectService.update(project);
+        int pid1 = Integer.parseInt(pid);
+        projectService.tag(pid1, tag);
+        System.out.println(pid1);
+        System.out.println(tag);
+        return Result.success();
+    }
+
 
 
 //    @GetMapping("/download")
