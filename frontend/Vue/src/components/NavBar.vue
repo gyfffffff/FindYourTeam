@@ -51,12 +51,12 @@ export default {
 .navBar {
     width: 100%;
     height: 130px;
-    background-color: rgba(151, 163, 234, 0.15);
+    background-color: #fff;
     padding-top: 15px;
     padding-left: 70px;
     display: flex;
-    border-radius: 15px;
     overflow: hidden;
+    border-bottom: 1px solid #888;
 }
 .navButtons {
     width: 90%;
@@ -81,5 +81,8 @@ export default {
     line-height: 90px;
     align-items: center;
     text-align: center;
+    border: 5px solid #b70031 !important;
+    border-bottom: 5px solid #b70031 !important;
 }
+
 </style>

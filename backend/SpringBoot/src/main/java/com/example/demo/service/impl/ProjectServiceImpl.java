@@ -91,6 +91,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public String tag(Integer pid, String tag) {
+        UpdateWrapper<Project> updateWrapper = new UpdateWrapper<Project>().eq("pid",pid).set("tag",tag);
+        projectMapper.update(null,updateWrapper);
+        return "success";
+    }
+
+    @Override
     public String savemainpic_path(Integer pid, String path){
 
         System.out.println("path:"+path);
