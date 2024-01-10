@@ -22,33 +22,33 @@ public class GroupServiceImpl implements GroupService{
     UserMapper userMapper;
 
     public String add(Group group){
-        User resu = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUid,group.getUid()));
+        User resu = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUid,group.getStuid()));
         if(resu==null){
             return "fail";
         }
-        Group resg = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getUid,group.getUid()).eq(Group::getGid,group.getGid()));
+        Group resg = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getStuid,group.getStuid()).eq(Group::getGid,group.getGid()));
         if(resg!=null){
             return "exist";
         }
-        if(group.getGid()==null)
-            group.setGid(UUID.randomUUID().toString().replace("-", ""));
+        if(group.getGroupKey()==null)
+            group.setGroupKey(UUID.randomUUID().toString().replace("-", ""));
         groupMapper.insert(group);
         return "success";
     }
 
     public Page<Group> getList(Integer pageNum, Integer pageSize, String uid){
-        LambdaQueryWrapper<Group> wrapper = Wrappers.<Group>lambdaQuery().eq(Group::getUid, uid);
+        LambdaQueryWrapper<Group> wrapper = Wrappers.<Group>lambdaQuery().eq(Group::getStuid, uid);
         Page<Group> groupPage = groupMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return groupPage;
     }
 
-    public Group getByKey(Integer key){
-        Group group = groupMapper.selectById(key);
+    public Group getByKey(String key){
+        Group group = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getGroupKey,key));
         return group;
     }
 
-    public Group getByPid(Integer pid, String uid){
-        Group group = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getPid,pid).eq(Group::getUid,uid));
+    public Group getByPid(Integer pid, String stuid){
+        Group group = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getPid,pid).eq(Group::getStuid,stuid));
         return group;
     }
 

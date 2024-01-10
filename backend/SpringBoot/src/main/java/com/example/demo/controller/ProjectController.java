@@ -64,8 +64,8 @@ public class ProjectController {
     @GetMapping("/load")
     public Result<?> load(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "9") Integer pageSize,
-                          @RequestParam String uid){
-        Page<Project> projectPage = projectService.getList(pageNum,pageSize,uid);
+                          @RequestParam String stuid){
+        Page<Project> projectPage = projectService.getList(pageNum,pageSize,stuid);
         return Result.success(projectPage);
     }
 
@@ -127,13 +127,13 @@ public class ProjectController {
         return matcher.matches();
     }
 
-    @PutMapping("/status")
-    public Result<?> status(Integer pid, String status){
-        Project project = projectService.getByID(pid);
-        project.setStatus(status);
-        projectService.update(project);
-        return Result.success();
-    }
+//    @PutMapping("/status")
+//    public Result<?> status(Integer pid, String status){
+//        Project project = projectService.getByID(pid);
+//        project.setStatus(status);
+//        projectService.update(project);
+//        return Result.success();
+//    }
 
     @GetMapping("/tag")
     public Result<?> tag(@RequestParam String pid, @RequestParam String tag) {

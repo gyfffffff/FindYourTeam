@@ -10,18 +10,6 @@ import lombok.Data;
 public class FileEntity {
     @TableId(value = "fid", type = IdType.AUTO)
     int fid;
-
-    String name;
-
-    String flag;
-
-    int tid;
-
-    public FileEntity(){}
-
-    public FileEntity(String name, String flag, int tid){
-        this.name = name;
-        this.flag = flag;
-        this.tid = tid;
-    }
+    String pid;
+    String file_path;
 }

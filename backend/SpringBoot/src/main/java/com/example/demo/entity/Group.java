@@ -11,19 +11,16 @@ import java.util.Random;
 @TableName("group_table")
 @Data
 public class Group {
-    @TableId(value = "group_key",type = IdType.AUTO)
-    @TableField("group_key")
-    int groupKey;
-    String uid;
-    int resp;
-    String gid;
-    int pid;
-    @TableField("group_name")
+    @TableId(value = "gid",type = IdType.AUTO)
+    Integer gid;
+    String stuid;
+    Integer pid;
     String groupName;
+    String groupKey;
 
     public Group() {
         // Generate a random 10-digit string for gid
-        this.gid = generateRandomString(10);
+        this.groupKey = generateRandomString(10);
     }
 
     private String generateRandomString(int length) {

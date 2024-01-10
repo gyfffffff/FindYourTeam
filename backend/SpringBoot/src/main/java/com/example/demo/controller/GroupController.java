@@ -30,13 +30,13 @@ public class GroupController {
     @GetMapping("/load")
     public Result<?> load(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "9") Integer pageSize,
-                          @RequestParam String uid){
-        Page<Group> groupPage = groupService.getList(pageNum,pageSize,uid);
+                          @RequestParam String stuid){
+        Page<Group> groupPage = groupService.getList(pageNum,pageSize,stuid);
         return Result.success(groupPage);
     }
 
     @GetMapping("/bykey")
-    public Result<?> bykey(@RequestParam Integer key){
+    public Result<?> bykey(@RequestParam String key){
         Group group = groupService.getByKey(key);
         if(group == null)
             return Result.error("-1","未查询到该任务！");
@@ -44,8 +44,9 @@ public class GroupController {
     }
 
     @GetMapping("/bypid")
-    public Result<?> bypid(@RequestParam Integer pid, @RequestParam String uid){
-        Group group = groupService.getByPid(pid,uid);
+    public Result<?> bypid(@RequestParam Integer pid, @RequestParam String stuid){
+        Group group = groupService.getByPid(pid,stuid);
+        System.out.println(group.getGroupName());
         return Result.success(group);
     }
 

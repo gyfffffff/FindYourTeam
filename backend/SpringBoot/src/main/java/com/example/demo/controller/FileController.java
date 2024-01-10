@@ -36,7 +36,7 @@ public class FileController {
     public Result<?> upload(@PathVariable int tid, MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String flag = IdUtil.fastSimpleUUID();
-        FileEntity fileEntity = new FileEntity(originalFilename,flag,tid);
+        FileEntity fileEntity = new FileEntity();
         fileMapper.insert(fileEntity);
         String rootFilePath = System.getProperty("user.dir") + "/src/main/resources/files/" + flag + "_" + originalFilename;
         FileUtil.writeBytes(file.getBytes(),rootFilePath);
@@ -64,14 +64,14 @@ public class FileController {
         }
     }
 
-    @GetMapping("/load")
-    public Result<?> load(@RequestParam(defaultValue = "1") Integer pageNum,
-                          @RequestParam(defaultValue = "9") Integer pageSize,
-                          @RequestParam String tid){
-        LambdaQueryWrapper<FileEntity> wrapper = Wrappers.<FileEntity>lambdaQuery().eq(FileEntity::getTid, tid);
-        Page<FileEntity> fileEntityPage = fileMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
-        return Result.success(fileEntityPage);
-    }
+//    @GetMapping("/load")
+//    public Result<?> load(@RequestParam(defaultValue = "1") Integer pageNum,
+//                          @RequestParam(defaultValue = "9") Integer pageSize,
+//                          @RequestParam String tid){
+//        LambdaQueryWrapper<FileEntity> wrapper = Wrappers.<FileEntity>lambdaQuery().eq(FileEntity::getTid, tid);
+//        Page<FileEntity> fileEntityPage = fileMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
+//        return Result.success(fileEntityPage);
+//    }
 
 
 }

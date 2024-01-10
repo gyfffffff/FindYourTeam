@@ -8,7 +8,7 @@ public interface GroupService {
 
     public Page<Group> getList(Integer pageNum, Integer pageSize, String uid);
 
-    public Group getByKey(Integer key);
+    public Group getByKey(String key);
 
     public Group getByPid(Integer pid, String uid);
 

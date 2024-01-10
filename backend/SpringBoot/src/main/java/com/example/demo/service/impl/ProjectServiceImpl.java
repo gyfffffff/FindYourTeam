@@ -50,9 +50,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public Page<Project> getList(Integer pageNum, Integer pageSize, String uid){
+    public Page<Project> getList(Integer pageNum, Integer pageSize, String stuid){
         //改：先由uid找到gid，再通过gid查project
-        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().inSql(Project::getGid, "select gid from `task`.group_table where uid = '"+uid+"'");
+        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().inSql(Project::getGid, "select gid from `task`.group_table where stuid = '"+stuid+"'");
         Page<Project> projectPage = projectMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return projectPage;
     }
@@ -107,6 +107,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> homeload(Integer pageNum, Integer pageSize){
         Page<Project> projectPage = projectMapper.selectPage(new Page<>(pageNum,pageSize),null);
+
         return projectPage;
     }
 
@@ -127,7 +128,7 @@ public class ProjectServiceImpl implements ProjectService {
         LambdaQueryWrapper<Project> wrapper;
         if (label.startsWith("s")) {
             String status = label;  // 获取除去前缀 "s" 后的部分
-            wrapper = Wrappers.<Project>lambdaQuery().eq(Project::getStatus, status);
+            wrapper = Wrappers.<Project>lambdaQuery().eq(Project::getDone, status);
         } else {
             wrapper = Wrappers.<Project>lambdaQuery().eq(Project::getDone, label);
         }

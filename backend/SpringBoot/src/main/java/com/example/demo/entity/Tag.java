@@ -1,2 +1,9 @@
-package com.example.demo.entity;public class Tag {
+package com.example.demo.entity;
+
+import lombok.Data;
+
+@Data
+public class Tag {
+    String tag;
+    String pid;
 }

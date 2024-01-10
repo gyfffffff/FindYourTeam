@@ -12,16 +12,14 @@ import java.sql.Date;
 @Data
 public class Task {
     @TableId(value = "tid", type = IdType.AUTO)
-    int tid;
+    Integer tid;
     String title;
     String intro;
-    String uid;
-    String xuehao;
-    Date startdate;
-    Date ddl;
-    int ptid;
-    int done;
-    int coop;
-    int emer;
-    int pid;
+    String executorStuid;
+    String startdate;
+    String enddate;
+    Integer done=0;
+    Integer pid;
+    String interfaceStuid;
+    String importanceLevel;
 }

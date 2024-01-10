@@ -26,8 +26,8 @@ public class TaskController {
     @GetMapping("/load")
     public Result<?> load(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "9") Integer pageSize,
-                          @RequestParam String uid){
-        Page<Task> taskPage = taskService.getList(pageNum,pageSize,uid);
+                          @RequestParam String stuid){
+        Page<Task> taskPage = taskService.getList(pageNum,pageSize,stuid);
         return Result.success(taskPage);
     }
 

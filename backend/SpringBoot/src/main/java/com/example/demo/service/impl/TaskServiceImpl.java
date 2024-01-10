@@ -22,7 +22,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public String add(Task task){
-        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getXuehao,task.getXuehao()));
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getStuid,task.getInterfaceStuid()));
+        System.out.println(task.getInterfaceStuid());
         if(res==null){
             return "fail";
         }
@@ -31,15 +32,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<Task> getList(Integer pageNum, Integer pageSize, String uid){
-        LambdaQueryWrapper<Task> wrapper = Wrappers.<Task>lambdaQuery().eq(Task::getUid, uid);
+    public Page<Task> getList(Integer pageNum, Integer pageSize, String stuid){
+        LambdaQueryWrapper<Task> wrapper = Wrappers.<Task>lambdaQuery().eq(Task::getExecutorStuid, stuid);
         Page<Task> taskPage = taskMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return taskPage;
     }
 
     @Override
     public Page<Task> getListInP(Integer pageNum, Integer pageSize, String pid){
-        LambdaQueryWrapper<Task> wrapper = Wrappers.<Task>lambdaQuery().eq(Task::getPid, pid).eq(Task::getCoop,1);
+        LambdaQueryWrapper<Task> wrapper = Wrappers.<Task>lambdaQuery().eq(Task::getPid, pid).eq(Task::getDone,1);
         Page<Task> taskPage = taskMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return taskPage;
     }

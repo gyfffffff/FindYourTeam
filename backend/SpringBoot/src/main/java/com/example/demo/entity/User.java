@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 public class User {
     @TableId(value = "uid", type = IdType.AUTO)
-    String uid;
+    Integer uid;
     String password = "1234";
     String name;
-    String xuehao;
+    String stuid;
     String avatar;
 }
