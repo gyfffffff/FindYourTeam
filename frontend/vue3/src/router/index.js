@@ -19,6 +19,7 @@ import Competition from '@/views/Competition.vue'
 import ComDetail from '@/views/ComDetail.vue'
 import Mypage from '@/views/Mypage.vue'
 import Privacy from '@/views/privacy.vue'
+import Chatbot from '@/views/Chatbot.vue'
 
 const routes = [
   {
@@ -137,6 +138,11 @@ const routes = [
     name: 'mypage',
     component: Mypage,
   },
+  {
+    path: '/chatbot',
+    name: 'chatbot',
+    component: Chatbot,
+  }
 ]
 
 const router = VueRouter.createRouter({

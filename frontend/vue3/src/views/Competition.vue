@@ -18,6 +18,9 @@
         <p class="noticeTime">{{ item.date }}</p>
       </div>
     </div>
+    <div class="chatbot">
+      <el-button type="success" @click="gotochatbot">竞赛信息小助手</el-button>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -57,6 +60,9 @@ export default {
       this.$router.push('/comdetail')
       document.documentElement.scrollTop = 0
     },
+    gotochatbot() {
+      this.$router.push('/chatbot')
+    },
   },
 }
 </script>
@@ -67,7 +73,7 @@ export default {
 }
 .competitions {
   width: 100%;
-  height: 700px;
+  height: 250px;
   background-color: white;
   padding: 20px 40px;
 }
@@ -101,5 +107,11 @@ export default {
   width: 200px;
   margin-left: 50px;
   font-size: 20px;
+}
+.chatbot {
+  width: 100%;
+  height: 100px;
+  background-color: rgb(253, 255, 255);
+  padding: 10px 560px;
 }
 </style>

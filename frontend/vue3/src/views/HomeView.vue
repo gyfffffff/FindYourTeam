@@ -90,7 +90,7 @@ export default {
     async getToken(code) {
       try {
         const url2 =
-          'https://api.ecnu.edu.cn/oauth2/token?grant_type=authorization_code&client_id=18cf6a2d57ab0f88&client_secret=0b157bbd4fb9ec63aeb6f06ac3f9dd8b&scope=ECNU-Basic&redirect_uri=http://localhost:8080/home&code=' +
+          '/oauth2/token?grant_type=authorization_code&client_id=18cf6a2d57ab0f88&client_secret=0b157bbd4fb9ec63aeb6f06ac3f9dd8b&scope=ECNU-Basic&redirect_uri=http://localhost:8080/home&code=' +
           code
         const response = await axios.post(url2)
         return {
@@ -108,7 +108,7 @@ export default {
       try {
         const config = {
           method: 'get',
-          url: 'https://api.ecnu.edu.cn/oauth2/userinfo',
+          url: '/oauth2/userinfo',
           headers: {
             Authorization: tokenType + ' ' + token,
           },

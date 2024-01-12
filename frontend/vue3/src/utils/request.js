@@ -14,7 +14,7 @@ request.interceptors.request.use(
     config.headers['Content-Type'] = 'application/json;charset=utf-8'
 
     // config.headers['token'] = user.token;  // 设置请求头
-    let userJson = sessionStorage.getItem('user')
+    let userJson = sessionStorage.getItem('stuid')
     if (!userJson) {
       router.push('/login')
     }

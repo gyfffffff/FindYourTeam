@@ -30,7 +30,7 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      name: sessionStorage.getItem('name'),
+      name: '',
       // 导航栏的数据，标题和需要跳转到的路由
       navArr: [
         { title: '首页', router: 'home' },
@@ -39,6 +39,9 @@ export default {
         { title: '赛事天地', router: 'competition' },
       ],
     }
+  },
+  created() {
+    this.name = sessionStorage.getItem('name')
   },
   methods: {
     // 点击导航栏时候执行的操作
