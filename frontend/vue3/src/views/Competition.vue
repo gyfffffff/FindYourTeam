@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="chatbot">
-      <el-button type="success" @click="gotochatbot">竞赛信息小助手</el-button>
+      <el-button type="success" @click="gotochatbot" round>竞赛信息小助手</el-button>
     </div>
     <Footer></Footer>
   </div>
