@@ -88,8 +88,6 @@
               <el-table-column prop="title" label="任务名称" width="180">
               </el-table-column>
               <el-table-column prop="intro" label="任务详述"> </el-table-column>
-              <el-table-column prop="stuid" label="对接人" width="130">
-              </el-table-column>
               <el-table-column prop="enddate" label="截止时间" sortable width="110">
               </el-table-column>
               <el-table-column prop="done" label="状态" width="80" :filters="[
@@ -98,13 +96,6 @@
                 { text: '待审核', value: '待审核' },
                 { text: '已终止', value: '已终止' },
               ]" :filter-method="filterDone">
-              </el-table-column>
-              <el-table-column prop="emer" label="重要程度" width="90" :filters="[
-                { text: '非常重要', value: '非常重要' },
-                { text: '重要', value: '重要' },
-                { text: '普通', value: '普通' },
-                { text: '不重要', value: '不重要' },
-              ]" :filter-method="filterEmer">
               </el-table-column>
             </el-table>
             <!--        分页-->
@@ -417,9 +408,9 @@ export default {
             if (item.emer === 1) item.emer = '重要'
             if (item.emer === 2) item.emer = '普通'
             if (item.emer === 3) item.emer = '不重要'
-            http.get('user/byid', { params: { uid: item.uid } }).then((res) => {
-              item.uid = res.data.name + ' (uid: ' + item.uid + ')'
-            })
+            // http.get('user/byid', { params: { uid: item.uid } }).then((res) => {
+            //   item.uid = res.data.name + ' (uid: ' + item.uid + ')'
+            // })
           })
           function formatDate(dateString) {
             const date = new Date(dateString)

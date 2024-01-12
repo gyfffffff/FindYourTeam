@@ -15,7 +15,7 @@
         <el-form-item label="截止时间" prop="enddate">
           <el-date-picker type="date" placeholder="选择日期" v-model="form.enddate" style="width: 80%"></el-date-picker>
         </el-form-item>
-        <el-form-item label="重要程度" prop="importance_level">
+        <el-form-item label="重要程度" prop="importanceLevel">
           <el-radio-group v-model="form.importanceLevel">
             <el-radio label="非常重要"></el-radio>
             <el-radio label="重要"></el-radio>
@@ -48,20 +48,7 @@
           { text: '已终止', value: '已终止' },
         ]" :filter-method="filterDone">
         </el-table-column>
-        <el-table-column prop="coop" label="任务类型" width="140" :filters="[
-          { text: '项目任务', value: '项目任务' },
-          { text: '个人任务', value: '个人任务' },
-        ]" :filter-method="filterCoop">
-        </el-table-column>
-        <el-table-column prop="important_level" label="重要程度" width="130" :filters="[
-          { text: '非常重要', value: '非常重要' },
-          { text: '重要', value: '重要' },
-          { text: '普通', value: '普通' },
-          { text: '不重要', value: '不重要' },
-        ]" :filter-method="filterEmer">
-        </el-table-column>
-        <el-table-column>
-
+        <el-table-column prop="importanceLevel" label="重要程度" width="130" >
         </el-table-column>
       </el-table>
       <el-pagination @current-change="handleCurrentChange" v-model:current-page="currentPage" layout="prev, pager, next"

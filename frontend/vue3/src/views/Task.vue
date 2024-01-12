@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <!-- <Header></Header> -->
     <el-row>
       <el-col :span="8">
         <div style="
@@ -14,28 +14,18 @@
             <p class="infoItem">任务名称：{{ taskData.title }}</p>
             <p class="infoItem">任务简介：{{ taskData.intro }}</p>
             <p class="infoItem">创建时间：{{ taskData.startdate }}</p>
-            <p class="infoItem">截止时间：{{ taskData.ddl }}</p>
+            <p class="infoItem">截止时间：{{ taskData.enddate }}</p>
             <p class="infoItem">状态：{{ taskData.done }}</p>
             <p class="infoItem">
-              类型：
-              <span v-if="taskData.coop === 0">个人任务</span>
-              <span v-if="taskData.coop === 1">项目任务</span>
+              重要程度：
+              <span>{{ taskData.importanceLevel }}</span>
             </p>
             <p class="infoItem">
-              重要程度：
-              <span v-if="taskData.emer === 0">非常重要</span>
-              <span v-if="taskData.emer === 1">重要</span>
-              <span v-if="taskData.emer === 2">普通</span>
-              <span v-if="taskData.emer === 3">不重要</span>
+              所属项目：<a class="link" @click="gotoProj">{{
+                projectData.title
+              }}</a>
             </p>
-            <div v-if="taskData.coop === 1">
-              <p class="infoItem">
-                所属项目：<a class="link" @click="gotoProj">{{
-                  projectData.title
-                }}</a>
-              </p>
-            </div>
-            <div v-if="taskData.coop === 0">
+            <div v-if="taskData.interfaceStuid === stuid">
               <p class="infoItem">
                 操作：
                 <el-button @click="doneTask" size="medium" type="success" style="margin-left: 10px">完成任务</el-button>
@@ -53,7 +43,7 @@
             margin-top: 10px;
             background-color: white;
           ">
-          <div v-if="this.user.uid !== this.taskData.uid && this.groupData.resp !== 1
+          <div v-if="this.stuid !== this.taskData.executorStuid
             " style="
               color: #606266;
               font-size: 30px;
@@ -115,7 +105,7 @@
       </el-col>
     </el-row>
 
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </div>
 </template>
 
@@ -129,7 +119,7 @@ export default {
   components: { Footer, Header },
   data() {
     return {
-      user: '',
+      stuid: '',
       taskId: '',
       taskData: [],
       projectData: [],
@@ -147,7 +137,7 @@ export default {
     }
   },
   created() {
-    this.uid = sessionStorage.getItem('uid')
+    this.stuid = sessionStorage.getItem('stuid')
     // this.check();
     this.getParams()
     this.getTask()
@@ -170,7 +160,7 @@ export default {
         http.get('/project/byid?pid=' + this.taskData.pid).then((res) => {
           this.projectData = res.data.data
           http
-            .get('/group/bypid?pid=' + this.taskData.pid + '&uid=' + this.uid)
+            .get('/group/bypid?pid=' + this.taskData.pid + '&stuid=' + this.stuid)
             .then((res) => {
               this.groupData = res.data.data
             })
