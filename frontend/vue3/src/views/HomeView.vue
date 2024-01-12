@@ -218,6 +218,7 @@ export default {
   width: 100%;
   height: 63px;
   background-color: #fff;
+  border: 1px solid rgb(220,223,230);
   line-height: 60px;
   font-size: 24px;
   font-weight: 600;
@@ -249,7 +250,7 @@ export default {
 .hotProjects {
   width: 100%;
   height: 500px;
-  background-color: #e7e7e7;
+  background-color: #fff;
 }
 
 .projectCard {
@@ -289,7 +290,7 @@ export default {
 .competitions {
   width: 100%;
   height: 500px;
-  background-color: #e7e7e7;
+  background-color: #fff;
   padding: 20px 30px;
   padding-left: 70px;
 }

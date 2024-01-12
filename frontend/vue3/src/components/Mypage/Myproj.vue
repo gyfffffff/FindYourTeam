@@ -33,7 +33,7 @@
         </div>
       </template>
     </el-dialog>
-    <div style="width: 100%; padding: 20px; padding-top: 70px">
+    <div style="width: 100%; padding: 20px; padding-top: 70px; border: 2px solid #dfdfdf; border-radius: 12px;">
       <el-table :data="tableData" border stripe style="width: 100%" @row-click="openDetails">
         <el-table-column prop="title" label="名称"> </el-table-column>
         <el-table-column prop="startdate" label="创建时间" sortable>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: #fff;">
     <el-button type="primary" class="returnButton" @click="navHome()"
       >返回首页</el-button
     >
@@ -197,6 +197,7 @@ export default {
   width: 100%;
   height: 400px;
   background-color: white;
+  border: 2px solid #dfdfdf;
   border-radius: 20px;
   padding-top: 30px;
   padding-left: 50px;
@@ -220,7 +221,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 20px;
-  border-left: 1px solid #888;
+  border-left: 2px solid #dfdfdf;
 }
 .buttons {
   margin-bottom: 20px;

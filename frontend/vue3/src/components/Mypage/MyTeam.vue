@@ -14,7 +14,7 @@
         </div>
       </template>
     </el-dialog>
-    <div style="width: 100%; padding: 20px">
+    <div style="width: 100%; padding: 20px;  border: 2px solid #dfdfdf; border-radius: 12px;">
       <el-table :data="tableData" border stripe style="width: 100%">
         <el-table-column prop="gid" label="团队ID"> </el-table-column>
         <el-table-column prop="groupName" label="团队名称"> </el-table-column>

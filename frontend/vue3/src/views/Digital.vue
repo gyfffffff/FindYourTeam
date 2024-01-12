@@ -94,12 +94,14 @@ export default {
 .main {
   width: 100%;
   height: 100%;
-  background-color: #cccccc;
+  background-color: #fff;
   padding: 20px 40px;
 }
 .searchBox {
   width: 100%;
   background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 10px;
   padding: 20px;
 }
 .formSearchText {

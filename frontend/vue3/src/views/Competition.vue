@@ -70,10 +70,11 @@ export default {
 <style scoped>
 .mainCompetition {
   width: 100%;
+  background-color: #fff;
 }
 .competitions {
   width: 100%;
-  height: 250px;
+  height: 350px;
   background-color: white;
   padding: 20px 40px;
 }

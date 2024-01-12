@@ -65,7 +65,7 @@ export default {
   padding-left: 70px;
   display: flex;
   overflow: hidden;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid #eee;
 }
 .navButtons {
   width: 90%;
