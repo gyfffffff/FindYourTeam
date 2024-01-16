@@ -37,12 +37,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public String add(Project project){
         //这里需要先判断project.getGid在Group::getGid里面有没有，首先要建GroupMapper
-        Group res = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getGid,project.getGid()));
+        Group res = groupMapper.selectOne(Wrappers.<Group>lambdaQuery().eq(Group::getGroupKey,project.getGid()));
         if(res==null)
             return "fail";
         else{
             projectMapper.insert(project);
-            UpdateWrapper<Group> updateWrapper = new UpdateWrapper<Group>().eq("gid",project.getGid()).set("pid",project.getPid());
+            UpdateWrapper<Group> updateWrapper = new UpdateWrapper<Group>().eq("group_key",project.getGid()).set("pid",project.getPid());
             groupMapper.update(null, updateWrapper);
             return "success";
         }
@@ -52,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> getList(Integer pageNum, Integer pageSize, String stuid){
         //改：先由uid找到gid，再通过gid查project
-        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().inSql(Project::getGid, "select gid from `task`.group_table where stuid = '"+stuid+"'");
+        LambdaQueryWrapper<Project> wrapper = Wrappers.<Project>lambdaQuery().inSql(Project::getGid, "select group_key from `task`.group_table where stuid = '"+stuid+"'");
         Page<Project> projectPage = projectMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return projectPage;
     }

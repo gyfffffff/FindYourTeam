@@ -20,11 +20,11 @@
               重要程度：
               <span>{{ taskData.importanceLevel }}</span>
             </p>
-            <p class="infoItem">
+            <!-- <p class="infoItem">
               所属项目：<a class="link" @click="gotoProj">{{
                 projectData.title
               }}</a>
-            </p>
+            </p> -->
             <div v-if="taskData.interfaceStuid === stuid">
               <p class="infoItem">
                 操作：
@@ -157,15 +157,15 @@ export default {
         if (this.taskData.done === 1) this.taskData.done = '已完成'
         if (this.taskData.done === 2) this.taskData.done = '待审核'
         if (this.taskData.done === 3) this.taskData.done = '已终止'
-        http.get('/project/byid?pid=' + this.taskData.pid).then((res) => {
-          this.projectData = res.data.data
-          http
-            .get('/group/bypid?pid=' + this.taskData.pid + '&stuid=' + this.stuid)
-            .then((res) => {
-              this.groupData = res.data.data
-            })
+        // http.get('/project/byid?pid=' + this.taskData.pid).then((res) => {
+          // this.projectData = res.data.data
+          // http
+          //   .get('/group/bypid?pid=' + this.taskData.pid + '&stuid=' + this.stuid)
+          //   .then((res) => {
+          //     this.groupData = res.data.data
+          //   })
         })
-      })
+      // })
     },
     gotoProj() {
       this.$router.push({

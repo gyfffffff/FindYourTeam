@@ -45,12 +45,13 @@ CREATE TABLE `group_member` (
 -- task.group_table definition
 
 CREATE TABLE `group_table` (
-  `gid` int unsigned NOT NULL COMMENT '自增的编码',
+  `gid` int unsigned NOT NULL AUTO_INCREMENT COMMENT '自增的编码',
   `stuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `pid` int DEFAULT NULL,
   `group_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `group_key` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '定长的编码'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+  `group_key` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '定长的编码',
+  PRIMARY KEY (`gid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 
 -- task.project_tag definition

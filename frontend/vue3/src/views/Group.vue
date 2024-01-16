@@ -122,7 +122,6 @@ export default {
     }
   },
   created() {
-    this.uid = sessionStorage.getItem('uid')
     this.name = sessionStorage.getItem('name')
     this.stuid = sessionStorage.getItem('stuid')
     // this.check();
@@ -141,7 +140,10 @@ export default {
         .get('/group/bykey', { params: { key: this.groupKey } })
         .then((res) => {
           this.groupData = res.data.data
-          console.log(118, res)
+          if (this.groupData.pid == null) {
+            alert('请先新建一个项目并关联该团队')
+            return 
+          }
           http
             .get('/project/byid', {
               params: { pid: this.groupData.pid },

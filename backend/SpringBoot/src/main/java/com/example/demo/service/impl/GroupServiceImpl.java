@@ -22,7 +22,7 @@ public class GroupServiceImpl implements GroupService{
     UserMapper userMapper;
 
     public String add(Group group){
-        User resu = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUid,group.getStuid()));
+        User resu = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getStuid,group.getStuid()));
         if(resu==null){
             return "fail";
         }

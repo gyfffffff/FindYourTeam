@@ -47,8 +47,7 @@ export default {
       currentPage: 1,
       form: {
         groupName: '',
-        uid: '',
-        resp: '',
+        stuid: '',
       },
       dialogFormVisible: false,
       rules: {
@@ -62,12 +61,13 @@ export default {
   methods: {
     openDetails(row) {
       console.log(66, row)
-      this.$router.push({
-        path: '/group',
-        query: {
-          groupKey: row.groupKey,
-        },
-      })
+        this.$router.push({
+          path: '/group',
+          query: {
+            groupKey: row.groupKey,
+          },
+        })        
+
     },
     gotoChat(row) {
       this.$router.push({
@@ -109,8 +109,7 @@ export default {
     save(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.form.uid = this.uid
-          this.form.resp = 1
+          this.form.stuid = this.stuid
           http.post('/group/add', this.form).then((res) => {
             // console.log(res)
             if (res.data.code === '0') {

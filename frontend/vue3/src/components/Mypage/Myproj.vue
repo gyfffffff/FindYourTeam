@@ -9,8 +9,8 @@
         <el-form-item label="项目简介" prop="intro" :label-width="formLabelWidth">
           <el-input v-model="form.intro" type="textarea" placeholder="输入项目简介，让别人对你的项目一目了然, 不超过500字"></el-input>
         </el-form-item>
-        <el-form-item label="团队ID" prop="gid">
-          <el-input v-model="form.gid" style="width: 80%"></el-input>
+        <el-form-item label="团队Key" prop="groupKey">
+          <el-input v-model="form.gid" style="width: 80%" placeholder="请在我的团队中查看还未关联项目的团队Key"></el-input>
         </el-form-item>
         <el-form-item label="创建时间" prop="startdate">
           <el-date-picker type="date" placeholder="选择日期" v-model="form.startdate" style="width: 80%"></el-date-picker>
@@ -176,6 +176,7 @@ export default {
       )
     },
     handleClose(done) {
+      this.form.gid = ''
       this.$confirm('确认关闭？')
         .then((_) => {
           done()
